@@ -12,6 +12,18 @@ const api = axios.create({
   },
 });
 
+// Add request interceptor to log all requests
+api.interceptors.request.use(
+  (config) => {
+    console.log('Making request to:', config.url);
+    console.log('Full URL:', config.baseURL + config.url);
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export interface Message {
   id: number;
   title: string;

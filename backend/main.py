@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from dotenv import load_dotenv
 import os
 
@@ -12,6 +13,16 @@ load_dotenv()
 # Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="WhatsApp Scheduler API")
+
+# Add middleware to handle proxy headers
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    # Log the incoming request
+    print(f"Incoming request: {request.method} {request.url}")
+    print(f"Headers: {dict(request.headers)}")
+    
+    response = await call_next(request)
+    return response
 
 app.add_middleware(
     CORSMiddleware,
