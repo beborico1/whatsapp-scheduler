@@ -4,17 +4,18 @@ from dotenv import load_dotenv
 import os
 
 from app.api import messages, recipients, schedules
-from app.database import engine, Base
+from app.database import Base
 
 load_dotenv()
 
-Base.metadata.create_all(bind=engine)
+# Tables are created by Alembic migrations, not here
+# Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="WhatsApp Scheduler API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],  # Allow all origins for now
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
