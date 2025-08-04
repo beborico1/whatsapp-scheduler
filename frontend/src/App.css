@@ -227,7 +227,7 @@ p {
 }
 
 .form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  filter: invert(24%) sepia(58%) saturate(635%) hue-rotate(131deg) brightness(94%) contrast(86%);
+  filter: invert(26%) sepia(15%) saturate(1106%) hue-rotate(123deg) brightness(93%) contrast(89%);
   cursor: pointer;
 }
 
