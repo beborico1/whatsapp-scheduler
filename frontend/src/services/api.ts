@@ -68,35 +68,35 @@ export interface ScheduledMessage {
 }
 
 export const messageApi = {
-  getAll: () => api.get<Message[]>('/messages'),
-  getOne: (id: number) => api.get<Message>(`/messages/${id}`),
-  create: (data: { title: string; content: string }) => api.post<Message>('/messages', data),
-  update: (id: number, data: { title: string; content: string }) => api.put<Message>(`/messages/${id}`, data),
-  delete: (id: number) => api.delete(`/messages/${id}`),
+  getAll: () => api.get<Message[]>('/messages/'),
+  getOne: (id: number) => api.get<Message>(`/messages/${id}/`),
+  create: (data: { title: string; content: string }) => api.post<Message>('/messages/', data),
+  update: (id: number, data: { title: string; content: string }) => api.put<Message>(`/messages/${id}/`, data),
+  delete: (id: number) => api.delete(`/messages/${id}/`),
 };
 
 export const recipientApi = {
-  getAll: () => api.get<Recipient[]>('/recipients'),
-  getOne: (id: number) => api.get<Recipient>(`/recipients/${id}`),
-  create: (data: { name: string; phone_number: string; group_ids?: number[] }) => api.post<Recipient>('/recipients', data),
-  delete: (id: number) => api.delete(`/recipients/${id}`),
+  getAll: () => api.get<Recipient[]>('/recipients/'),
+  getOne: (id: number) => api.get<Recipient>(`/recipients/${id}/`),
+  create: (data: { name: string; phone_number: string; group_ids?: number[] }) => api.post<Recipient>('/recipients/', data),
+  delete: (id: number) => api.delete(`/recipients/${id}/`),
 };
 
 export const groupApi = {
-  getAll: () => api.get<RecipientGroup[]>('/recipients/groups'),
-  getOne: (id: number) => api.get<RecipientGroup>(`/recipients/groups/${id}`),
-  create: (data: { name: string; description?: string; recipient_ids?: number[] }) => api.post<RecipientGroup>('/recipients/groups', data),
-  updateRecipients: (id: number, recipientIds: number[]) => api.put<RecipientGroup>(`/recipients/groups/${id}/recipients`, recipientIds),
-  delete: (id: number) => api.delete(`/recipients/groups/${id}`),
+  getAll: () => api.get<RecipientGroup[]>('/recipients/groups/'),
+  getOne: (id: number) => api.get<RecipientGroup>(`/recipients/groups/${id}/`),
+  create: (data: { name: string; description?: string; recipient_ids?: number[] }) => api.post<RecipientGroup>('/recipients/groups/', data),
+  updateRecipients: (id: number, recipientIds: number[]) => api.put<RecipientGroup>(`/recipients/groups/${id}/recipients/`, recipientIds),
+  delete: (id: number) => api.delete(`/recipients/groups/${id}/`),
 };
 
 export const scheduleApi = {
-  getAll: (status?: string) => api.get<ScheduledMessage[]>('/schedules', { params: { status } }),
-  getOne: (id: number) => api.get<ScheduledMessage>(`/schedules/${id}`),
-  create: (data: { message_id: number; group_id: number; scheduled_time: string }) => api.post<ScheduledMessage>('/schedules', data),
-  cancel: (id: number) => api.put(`/schedules/${id}/cancel`),
-  sendNow: (id: number) => api.post(`/schedules/${id}/send-now`),
-  delete: (id: number) => api.delete(`/schedules/${id}`),
+  getAll: (status?: string) => api.get<ScheduledMessage[]>('/schedules/', { params: { status } }),
+  getOne: (id: number) => api.get<ScheduledMessage>(`/schedules/${id}/`),
+  create: (data: { message_id: number; group_id: number; scheduled_time: string }) => api.post<ScheduledMessage>('/schedules/', data),
+  cancel: (id: number) => api.put(`/schedules/${id}/cancel/`),
+  sendNow: (id: number) => api.post(`/schedules/${id}/send-now/`),
+  delete: (id: number) => api.delete(`/schedules/${id}/`),
 };
 
 export default api;
