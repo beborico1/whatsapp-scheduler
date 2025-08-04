@@ -1,0 +1,2 @@
+# Backend requirements - see backend/requirements.txt
+-r backend/requirements.txt
