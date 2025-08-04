@@ -196,7 +196,7 @@ body::before {
   width: 100%;
   height: auto;
   margin-bottom: 2rem;
-  filter: drop-shadow(0 0 40px rgba(0, 215, 87, 0.4));
+  filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(0, 215, 87, 0.4));
   animation: float 3s ease-in-out infinite;
 }
 
