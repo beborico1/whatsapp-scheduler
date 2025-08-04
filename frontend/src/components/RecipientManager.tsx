@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { recipientApi, groupApi, Recipient, RecipientGroup } from '../services/api';
+import EmptyState from './EmptyState';
 
 const RecipientManager: React.FC = () => {
   const [recipients, setRecipients] = useState<Recipient[]>([]);
@@ -94,20 +95,20 @@ const RecipientManager: React.FC = () => {
 
   return (
     <div className="card">
-      <h2>Recipients & Groups</h2>
+      <h2><i className="fas fa-address-book"></i> Recipients & Groups</h2>
       
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+      <div className="tab-buttons">
         <button
-          className={`btn ${activeTab === 'recipients' ? '' : 'btn-secondary'}`}
+          className={`tab-button ${activeTab === 'recipients' ? 'active' : ''}`}
           onClick={() => setActiveTab('recipients')}
         >
-          Recipients ({recipients.length})
+          <i className="fas fa-user"></i> Recipients ({recipients.length})
         </button>
         <button
-          className={`btn ${activeTab === 'groups' ? '' : 'btn-secondary'}`}
+          className={`tab-button ${activeTab === 'groups' ? 'active' : ''}`}
           onClick={() => setActiveTab('groups')}
         >
-          Groups ({groups.length})
+          <i className="fas fa-users"></i> Groups ({groups.length})
         </button>
       </div>
 
@@ -115,12 +116,20 @@ const RecipientManager: React.FC = () => {
         <>
           <div style={{ marginBottom: '1rem' }}>
             <button className="btn" onClick={() => setShowRecipientForm(true)}>
-              Add Recipient
+              <i className="fas fa-user-plus"></i> Add Recipient
             </button>
           </div>
           
           {recipients.length === 0 ? (
-            <p>No recipients yet. Add your first recipient!</p>
+            <EmptyState
+              icon="fas fa-user-friends"
+              title="No recipients yet"
+              description="Add your first recipient to start sending WhatsApp messages"
+              action={{
+                label: 'Add First Recipient',
+                onClick: () => setShowRecipientForm(true)
+              }}
+            />
           ) : (
             <table className="table">
               <thead>
@@ -147,7 +156,7 @@ const RecipientManager: React.FC = () => {
                         className="btn btn-danger"
                         onClick={() => handleDeleteRecipient(recipient.id)}
                       >
-                        Delete
+                        <i className="fas fa-trash"></i> Delete
                       </button>
                     </td>
                   </tr>
@@ -162,12 +171,20 @@ const RecipientManager: React.FC = () => {
         <>
           <div style={{ marginBottom: '1rem' }}>
             <button className="btn" onClick={() => setShowGroupForm(true)}>
-              Create Group
+              <i className="fas fa-users-cog"></i> Create Group
             </button>
           </div>
           
           {groups.length === 0 ? (
-            <p>No groups yet. Create your first group!</p>
+            <EmptyState
+              icon="fas fa-users"
+              title="No groups yet"
+              description="Create groups to organize your recipients and send bulk messages"
+              action={{
+                label: 'Create First Group',
+                onClick: () => setShowGroupForm(true)
+              }}
+            />
           ) : (
             <table className="table">
               <thead>
@@ -189,7 +206,7 @@ const RecipientManager: React.FC = () => {
                         className="btn btn-danger"
                         onClick={() => handleDeleteGroup(group.id)}
                       >
-                        Delete
+                        <i className="fas fa-trash"></i> Delete
                       </button>
                     </td>
                   </tr>

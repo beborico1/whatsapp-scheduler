@@ -95,7 +95,7 @@ const MessageScheduler: React.FC = () => {
       </div>
       
       <div className="card">
-        <h2>Schedule a WhatsApp Message</h2>
+        <h2><i className="fas fa-paper-plane"></i> Schedule a WhatsApp Message</h2>
         
         {error && <div className="message error">{error}</div>}
         {success && <div className="message success">{success}</div>}
