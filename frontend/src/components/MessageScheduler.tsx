@@ -89,10 +89,10 @@ const MessageScheduler: React.FC = () => {
 
   return (
     <>
-      <div className="welcome-section">
+      {/* <div className="welcome-section">
         <img src="/logo.png" alt="WhatsApp Scheduler" className="welcome-logo" />
         <p className="welcome-text">Schedule your WhatsApp messages with ease</p>
-      </div>
+      </div> */}
       
       <div className="card">
         <h2><i className="fas fa-paper-plane"></i> Schedule a WhatsApp Message</h2>
