@@ -11,7 +11,7 @@
   --secondary-dark: #6D28D9;
   --secondary-light: #8B5CF6;
   
-  --background: #0A0E27;
+  --background: #050816;
   --surface: #1A1F3A;
   --surface-light: #242B48;
   --surface-lighter: #2E3654;
@@ -137,7 +137,7 @@ body::before {
 }
 
 .navbar a {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   text-decoration: none;
   padding: 0.75rem 1.5rem;
   border-radius: 12px;
@@ -165,6 +165,7 @@ body::before {
 .navbar a:hover {
   color: var(--text-primary);
   transform: translateY(-2px);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .navbar a:hover::before {
