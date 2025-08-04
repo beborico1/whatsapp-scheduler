@@ -100,6 +100,9 @@ const MessageList: React.FC = () => {
                       type="text"
                       value={editForm.title}
                       onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+                      className="table-edit-input"
+                      placeholder="Enter title..."
+                      autoFocus
                     />
                   ) : (
                     message.title
@@ -111,6 +114,8 @@ const MessageList: React.FC = () => {
                       value={editForm.content}
                       onChange={(e) => setEditForm({ ...editForm, content: e.target.value })}
                       rows={3}
+                      className="table-edit-textarea"
+                      placeholder="Enter message content..."
                     />
                   ) : (
                     message.content.substring(0, 100) + (message.content.length > 100 ? '...' : '')
@@ -121,8 +126,14 @@ const MessageList: React.FC = () => {
                   <div className="actions">
                     {editingId === message.id ? (
                       <>
-                        <button className="btn" onClick={handleUpdate}>Save</button>
-                        <button className="btn btn-secondary" onClick={() => setEditingId(null)}>Cancel</button>
+                        <button className="btn btn-save-edit" onClick={handleUpdate}>
+                          <i className="fas fa-check"></i>
+                          Save
+                        </button>
+                        <button className="btn btn-cancel-edit" onClick={() => setEditingId(null)}>
+                          <i className="fas fa-times"></i>
+                          Cancel
+                        </button>
                       </>
                     ) : (
                       <>

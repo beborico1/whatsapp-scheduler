@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { messageApi, groupApi, scheduleApi, Message, RecipientGroup } from '../services/api';
-import { format } from 'date-fns';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
 
 const MessageScheduler: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [groups, setGroups] = useState<RecipientGroup[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<number | ''>('');
   const [selectedGroup, setSelectedGroup] = useState<number | ''>('');
-  const [scheduledTime, setScheduledTime] = useState('');
+  const [scheduledTime, setScheduledTime] = useState<Date | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -71,21 +72,19 @@ const MessageScheduler: React.FC = () => {
       await scheduleApi.create({
         message_id: Number(selectedMessage),
         group_id: Number(selectedGroup),
-        scheduled_time: new Date(scheduledTime).toISOString(),
+        scheduled_time: scheduledTime!.toISOString(),
       });
       
       setSuccess('Message scheduled successfully!');
       setSelectedMessage('');
       setSelectedGroup('');
-      setScheduledTime('');
+      setScheduledTime(null);
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Failed to schedule message');
     } finally {
       setLoading(false);
     }
   };
-
-  const minDateTime = format(new Date(), "yyyy-MM-dd'T'HH:mm");
 
   return (
     <>
@@ -104,20 +103,16 @@ const MessageScheduler: React.FC = () => {
         <div className="form-group">
           <label htmlFor="message">Message</label>
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <select
+            <Select
               id="message"
-              value={selectedMessage}
-              onChange={(e) => setSelectedMessage(e.target.value ? Number(e.target.value) : '')}
-              required
-              style={{ flex: 1 }}
-            >
-              <option value="">Select a message</option>
-              {messages.map((msg) => (
-                <option key={msg.id} value={msg.id}>
-                  {msg.title}
-                </option>
-              ))}
-            </select>
+              value={messages.find(msg => msg.id === selectedMessage) ? { value: selectedMessage, label: messages.find(msg => msg.id === selectedMessage)!.title } : null}
+              onChange={(option) => setSelectedMessage(option ? option.value : '')}
+              options={messages.map(msg => ({ value: msg.id, label: msg.title }))}
+              placeholder="Select a message"
+              className="custom-select-container"
+              classNamePrefix="custom-select"
+              styles={{ container: (provided) => ({ ...provided, flex: 1 }) }}
+            />
             <button
               type="button"
               className="btn btn-new-message"
@@ -131,31 +126,43 @@ const MessageScheduler: React.FC = () => {
 
         <div className="form-group">
           <label htmlFor="group">Recipient Group</label>
-          <select
+          <Select
             id="group"
-            value={selectedGroup}
-            onChange={(e) => setSelectedGroup(e.target.value ? Number(e.target.value) : '')}
-            required
-          >
-            <option value="">Select a group</option>
-            {groups.map((group) => (
-              <option key={group.id} value={group.id}>
-                {group.name} ({group.recipients?.length || 0} recipients)
-              </option>
-            ))}
-          </select>
+            value={groups.find(grp => grp.id === selectedGroup) ? { value: selectedGroup, label: `${groups.find(grp => grp.id === selectedGroup)!.name} (${groups.find(grp => grp.id === selectedGroup)!.recipients?.length || 0} recipients)` } : null}
+            onChange={(option) => setSelectedGroup(option ? option.value : '')}
+            options={groups.map(group => ({ 
+              value: group.id, 
+              label: `${group.name} (${group.recipients?.length || 0} recipients)` 
+            }))}
+            placeholder="Select a group"
+            className="custom-select-container"
+            classNamePrefix="custom-select"
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="scheduledTime">Schedule Date & Time</label>
-          <input
-            type="datetime-local"
-            id="scheduledTime"
-            value={scheduledTime}
-            onChange={(e) => setScheduledTime(e.target.value)}
-            min={minDateTime}
-            required
-          />
+          <div className="custom-datepicker">
+            <DatePicker
+              selected={scheduledTime}
+              onChange={(date) => setScheduledTime(date)}
+              onCalendarOpen={() => {
+                if (!scheduledTime) {
+                  setScheduledTime(new Date());
+                }
+              }}
+              showTimeInput
+              dateFormat="MMM d, yyyy HH:mm:ss"
+              minDate={new Date()}
+              placeholderText="Select date and time"
+              required
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              timeCaption="Time"
+              timeInputLabel="Time:"
+            />
+          </div>
         </div>
 
         <button type="submit" className="btn btn-schedule" disabled={loading}>
@@ -207,12 +214,12 @@ const MessageScheduler: React.FC = () => {
                 />
               </div>
               <div className="actions">
-                <button type="submit" className="btn" disabled={loading}>
+                <button type="submit" className="btn btn-modal-create" disabled={loading}>
                   Create Message
                 </button>
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-modal-cancel"
                   onClick={() => setShowMessageForm(false)}
                 >
                   Cancel

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { scheduleApi, ScheduledMessage } from '../services/api';
 import { format } from 'date-fns';
+import Select from 'react-select';
 
 const ScheduledMessages: React.FC = () => {
   const [schedules, setSchedules] = useState<ScheduledMessage[]>([]);
@@ -9,6 +10,7 @@ const ScheduledMessages: React.FC = () => {
 
   useEffect(() => {
     fetchSchedules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   const fetchSchedules = async () => {
@@ -76,17 +78,20 @@ const ScheduledMessages: React.FC = () => {
       
       <div className="form-group">
         <label htmlFor="filter">Filter by Status</label>
-        <select
+        <Select
           id="filter"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        >
-          <option value="">All</option>
-          <option value="pending">Pending</option>
-          <option value="sent">Sent</option>
-          <option value="failed">Failed</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
+          value={filter ? { value: filter, label: filter.charAt(0).toUpperCase() + filter.slice(1) } : { value: '', label: 'All' }}
+          onChange={(option) => setFilter(option?.value || '')}
+          options={[
+            { value: '', label: 'All' },
+            { value: 'pending', label: 'Pending' },
+            { value: 'sent', label: 'Sent' },
+            { value: 'failed', label: 'Failed' },
+            { value: 'cancelled', label: 'Cancelled' }
+          ]}
+          className="custom-select-container"
+          classNamePrefix="custom-select"
+        />
       </div>
 
       {schedules.length === 0 ? (
