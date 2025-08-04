@@ -12,9 +12,9 @@
   --secondary-light: #8B5CF6;
   
   --background: #050816;
-  --surface: #1A1F3A;
-  --surface-light: #242B48;
-  --surface-lighter: #2E3654;
+  --surface: #1F2437;
+  --surface-light: #2A3050;
+  --surface-lighter: #353B5A;
   
   --text-primary: #FFFFFF;
   --text-secondary: #B8BCC8;
@@ -228,7 +228,7 @@ body::before {
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-xl), var(--shadow-glow);
+  box-shadow: var(--shadow-xl);
 }
 
 .card h2 {
