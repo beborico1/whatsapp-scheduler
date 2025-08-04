@@ -161,6 +161,7 @@ const MessageScheduler: React.FC = () => {
           {loading ? 'Scheduling...' : 'Schedule Message'}
         </button>
       </form>
+    </div>
 
       {showMessageForm && (
         <div className="modal">
