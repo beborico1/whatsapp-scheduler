@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { messageApi, groupApi, scheduleApi, Message, RecipientGroup } from '../services/api';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const MessageScheduler: React.FC = () => {
+  const navigate = useNavigate();
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [groups, setGroups] = useState<RecipientGroup[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<number | ''>('');
@@ -51,7 +55,7 @@ const MessageScheduler: React.FC = () => {
       setNewMessage({ title: '', content: '' });
       setShowMessageForm(false);
     } catch (err) {
-      setError('Failed to create message');
+      setError(t('scheduler.errorCreate'));
     } finally {
       setLoading(false);
     }
@@ -63,7 +67,7 @@ const MessageScheduler: React.FC = () => {
     setSuccess('');
 
     if (!selectedMessage || !selectedGroup || !scheduledTime) {
-      setError('Please fill in all fields');
+      setError(t('scheduler.errorFillFields'));
       return;
     }
 
@@ -75,12 +79,12 @@ const MessageScheduler: React.FC = () => {
         scheduled_time: scheduledTime!.toISOString(),
       });
       
-      setSuccess('Message scheduled successfully!');
+      setSuccess(t('scheduler.successMessage'));
       setSelectedMessage('');
       setSelectedGroup('');
       setScheduledTime(null);
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to schedule message');
+      setError(err.response?.data?.detail || t('scheduler.errorSchedule'));
     } finally {
       setLoading(false);
     }
@@ -94,21 +98,21 @@ const MessageScheduler: React.FC = () => {
       </div> */}
       
       <div className="card">
-        <h2>Schedule a WhatsApp Message</h2>
+        <h2>{t('scheduler.title')}</h2>
         
         {error && <div className="message error">{error}</div>}
         {success && <div className="message success">{success}</div>}
 
       <form onSubmit={handleSchedule}>
         <div className="form-group">
-          <label htmlFor="message">Message</label>
+          <label htmlFor="message">{t('scheduler.message')}</label>
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
             <Select
               id="message"
               value={messages.find(msg => msg.id === selectedMessage) ? { value: selectedMessage, label: messages.find(msg => msg.id === selectedMessage)!.title } : null}
               onChange={(option) => setSelectedMessage(option ? option.value : '')}
               options={messages.map(msg => ({ value: msg.id, label: msg.title }))}
-              placeholder="Select a message"
+              placeholder={t('scheduler.selectMessage')}
               className="custom-select-container"
               classNamePrefix="custom-select"
               styles={{ container: (provided) => ({ ...provided, flex: 1 }) }}
@@ -119,29 +123,40 @@ const MessageScheduler: React.FC = () => {
               onClick={() => setShowMessageForm(true)}
             >
               <i className="fas fa-plus"></i>
-              New Message
+              {t('scheduler.newMessage')}
             </button>
           </div>
         </div>
 
         <div className="form-group">
-          <label htmlFor="group">Recipient Group</label>
-          <Select
-            id="group"
-            value={groups.find(grp => grp.id === selectedGroup) ? { value: selectedGroup, label: `${groups.find(grp => grp.id === selectedGroup)!.name} (${groups.find(grp => grp.id === selectedGroup)!.recipients?.length || 0} recipients)` } : null}
-            onChange={(option) => setSelectedGroup(option ? option.value : '')}
-            options={groups.map(group => ({ 
-              value: group.id, 
-              label: `${group.name} (${group.recipients?.length || 0} recipients)` 
-            }))}
-            placeholder="Select a group"
-            className="custom-select-container"
-            classNamePrefix="custom-select"
-          />
+          <label htmlFor="group">{t('scheduler.recipientGroup')}</label>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <Select
+              id="group"
+              value={groups.find(grp => grp.id === selectedGroup) ? { value: selectedGroup, label: `${groups.find(grp => grp.id === selectedGroup)!.name} (${groups.find(grp => grp.id === selectedGroup)!.recipients?.length || 0} ${t('scheduler.recipients')})` } : null}
+              onChange={(option) => setSelectedGroup(option ? option.value : '')}
+              options={groups.map(group => ({ 
+                value: group.id, 
+                label: `${group.name} (${group.recipients?.length || 0} ${t('scheduler.recipients')})` 
+              }))}
+              placeholder={t('scheduler.selectGroup')}
+              className="custom-select-container"
+              classNamePrefix="custom-select"
+              styles={{ container: (provided) => ({ ...provided, flex: 1 }) }}
+            />
+            <button
+              type="button"
+              className="btn btn-new-group"
+              onClick={() => navigate('/recipients?tab=groups&action=create')}
+            >
+              <i className="fas fa-users"></i>
+              {t('scheduler.newGroup')}
+            </button>
+          </div>
         </div>
 
         <div className="form-group">
-          <label htmlFor="scheduledTime">Schedule Date & Time</label>
+          <label htmlFor="scheduledTime">{t('scheduler.scheduleDateTime')}</label>
           <div className="custom-datepicker">
             <DatePicker
               selected={scheduledTime}
@@ -154,7 +169,7 @@ const MessageScheduler: React.FC = () => {
               showTimeInput
               dateFormat="MMM d, yyyy HH:mm:ss"
               minDate={new Date()}
-              placeholderText="Select date and time"
+              placeholderText={t('scheduler.selectDateTime')}
               required
               showMonthDropdown
               showYearDropdown
@@ -169,12 +184,12 @@ const MessageScheduler: React.FC = () => {
           {loading ? (
             <>
               <i className="fas fa-spinner fa-spin"></i>
-              Scheduling...
+              {t('scheduler.scheduling')}
             </>
           ) : (
             <>
               <i className="fas fa-clock"></i>
-              Schedule Message
+              {t('scheduler.scheduleButton')}
             </>
           )}
         </button>
@@ -185,7 +200,7 @@ const MessageScheduler: React.FC = () => {
         <div className="modal">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>Create New Message</h3>
+              <h3>{t('scheduler.createNewMessage')}</h3>
               <button
                 className="close-btn"
                 onClick={() => setShowMessageForm(false)}
@@ -195,7 +210,7 @@ const MessageScheduler: React.FC = () => {
             </div>
             <form onSubmit={handleCreateMessage}>
               <div className="form-group">
-                <label htmlFor="title">Title</label>
+                <label htmlFor="title">{t('scheduler.messageTitle')}</label>
                 <input
                   type="text"
                   id="title"
@@ -205,7 +220,7 @@ const MessageScheduler: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="content">Content</label>
+                <label htmlFor="content">{t('scheduler.content')}</label>
                 <textarea
                   id="content"
                   value={newMessage.content}
@@ -215,14 +230,14 @@ const MessageScheduler: React.FC = () => {
               </div>
               <div className="actions">
                 <button type="submit" className="btn btn-modal-create" disabled={loading}>
-                  Create Message
+                  {t('scheduler.createMessage')}
                 </button>
                 <button
                   type="button"
                   className="btn btn-modal-cancel"
                   onClick={() => setShowMessageForm(false)}
                 >
-                  Cancel
+                  {t('scheduler.cancel')}
                 </button>
               </div>
             </form>

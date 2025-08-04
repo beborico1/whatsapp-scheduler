@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { messageApi, Message } from '../services/api';
 import { format } from 'date-fns';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const MessageList: React.FC = () => {
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -57,7 +59,7 @@ const MessageList: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this message?')) {
+    if (window.confirm(t('messages.confirmDelete'))) {
       try {
         await messageApi.delete(id);
         setMessages(messages.filter(msg => msg.id !== id));
@@ -67,28 +69,28 @@ const MessageList: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="loading">Loading messages...</div>;
+  if (loading) return <div className="loading">{t('messages.loading')}</div>;
 
   return (
     <div className="card">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h2>Messages</h2>
+        <h2>{t('messages.title')}</h2>
         <button className="btn btn-create-message" onClick={() => setShowCreateForm(true)}>
           <i className="fas fa-plus"></i>
-          Create New Message
+          {t('messages.createNewMessage')}
         </button>
       </div>
 
       {messages.length === 0 ? (
-        <p>No messages yet. Create your first message!</p>
+        <p>{t('messages.noMessages')}</p>
       ) : (
         <table className="table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Content Preview</th>
-              <th>Created</th>
-              <th>Actions</th>
+              <th>{t('messages.messageTitle')}</th>
+              <th>{t('messages.contentPreview')}</th>
+              <th>{t('messages.created')}</th>
+              <th>{t('messages.actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -101,7 +103,7 @@ const MessageList: React.FC = () => {
                       value={editForm.title}
                       onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
                       className="table-edit-input"
-                      placeholder="Enter title..."
+                      placeholder={t('messages.enterTitle')}
                       autoFocus
                     />
                   ) : (
@@ -115,7 +117,7 @@ const MessageList: React.FC = () => {
                       onChange={(e) => setEditForm({ ...editForm, content: e.target.value })}
                       rows={3}
                       className="table-edit-textarea"
-                      placeholder="Enter message content..."
+                      placeholder={t('messages.enterContent')}
                     />
                   ) : (
                     message.content.substring(0, 100) + (message.content.length > 100 ? '...' : '')
@@ -128,22 +130,22 @@ const MessageList: React.FC = () => {
                       <>
                         <button className="btn btn-save-edit" onClick={handleUpdate}>
                           <i className="fas fa-check"></i>
-                          Save
+                          {t('messages.save')}
                         </button>
                         <button className="btn btn-cancel-edit" onClick={() => setEditingId(null)}>
                           <i className="fas fa-times"></i>
-                          Cancel
+                          {t('messages.cancel')}
                         </button>
                       </>
                     ) : (
                       <>
                         <button className="btn btn-edit" onClick={() => handleEdit(message)}>
                           <i className="fas fa-edit"></i>
-                          Edit
+                          {t('messages.edit')}
                         </button>
                         <button className="btn btn-danger" onClick={() => handleDelete(message.id)}>
                           <i className="fas fa-trash"></i>
-                          Delete
+                          {t('messages.delete')}
                         </button>
                       </>
                     )}
@@ -159,12 +161,12 @@ const MessageList: React.FC = () => {
         <div className="modal">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>Create New Message</h3>
+              <h3>{t('messages.createNewMessage')}</h3>
               <button className="close-btn" onClick={() => setShowCreateForm(false)}>×</button>
             </div>
             <form onSubmit={handleCreate}>
               <div className="form-group">
-                <label htmlFor="title">Title</label>
+                <label htmlFor="title">{t('messages.messageTitle')}</label>
                 <input
                   type="text"
                   id="title"
@@ -174,7 +176,7 @@ const MessageList: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="content">Content</label>
+                <label htmlFor="content">{t('messages.content')}</label>
                 <textarea
                   id="content"
                   value={newMessage.content}
@@ -184,9 +186,9 @@ const MessageList: React.FC = () => {
                 />
               </div>
               <div className="actions">
-                <button type="submit" className="btn">Create Message</button>
+                <button type="submit" className="btn">{t('messages.create')}</button>
                 <button type="button" className="btn btn-secondary" onClick={() => setShowCreateForm(false)}>
-                  Cancel
+                  {t('messages.cancel')}
                 </button>
               </div>
             </form>
