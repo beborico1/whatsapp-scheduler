@@ -338,7 +338,9 @@ p {
   background: white;
   border-color: #285C54;
   color: #285C54;
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  width: 160px;
+  white-space: nowrap;
 }
 
 .btn-new-message:hover {
@@ -352,7 +354,8 @@ p {
   border-color: #285C54;
   color: #285C54;
   padding: var(--spacing-sm) var(--spacing-lg);
-  min-width: 140px;
+  width: 160px;
+  white-space: nowrap;
 }
 
 .btn-new-group:hover {
@@ -1254,12 +1257,14 @@ select option:checked {
 }
 
 /* Modal Buttons */
+.btn-modal-primary,
 .btn-modal-create {
   background: #408A7E;
   border-color: #408A7E;
   color: white;
 }
 
+.btn-modal-primary:hover,
 .btn-modal-create:hover {
   background: #357066;
   border-color: #357066;
@@ -1391,14 +1396,14 @@ select option:checked {
 /* Language Toggle */
 .language-toggle {
   display: flex;
-  gap: var(--spacing-xs);
+  gap: 0;
   background: rgba(255, 255, 255, 0.1);
   padding: 2px;
   border-radius: var(--radius-md);
 }
 
 .lang-btn {
-  padding: var(--spacing-xs) var(--spacing-md);
+  padding: var(--spacing-xs) 6px;
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.7);
@@ -1407,7 +1412,8 @@ select option:checked {
   cursor: pointer;
   transition: var(--transition);
   border-radius: var(--radius-sm);
-  min-width: 40px;
+  min-width: 28px;
+  flex: 1;
 }
 
 .lang-btn:hover {

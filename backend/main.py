@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from dotenv import load_dotenv
 import os
 
@@ -12,7 +14,12 @@ load_dotenv()
 # Tables are created by Alembic migrations, not here
 # Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="WhatsApp Scheduler API")
+app = FastAPI(
+    title="WhatsApp Scheduler API",
+    openapi_url="/api/openapi.json",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc"
+)
 
 # Add middleware to handle proxy headers
 @app.middleware("http")
@@ -36,6 +43,10 @@ app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
 app.include_router(recipients.router, prefix="/api/recipients", tags=["recipients"])
 app.include_router(schedules.router, prefix="/api/schedules", tags=["schedules"])
 app.include_router(debug.router, prefix="/api/debug", tags=["debug"])
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse("favicon.ico")
 
 @app.get("/")
 def read_root():
