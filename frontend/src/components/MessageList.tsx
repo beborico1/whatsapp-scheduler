@@ -73,7 +73,8 @@ const MessageList: React.FC = () => {
     <div className="card">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h2>Messages</h2>
-        <button className="btn" onClick={() => setShowCreateForm(true)}>
+        <button className="btn btn-create-message" onClick={() => setShowCreateForm(true)}>
+          <i className="fas fa-plus"></i>
           Create New Message
         </button>
       </div>
@@ -125,8 +126,14 @@ const MessageList: React.FC = () => {
                       </>
                     ) : (
                       <>
-                        <button className="btn btn-secondary" onClick={() => handleEdit(message)}>Edit</button>
-                        <button className="btn btn-danger" onClick={() => handleDelete(message.id)}>Delete</button>
+                        <button className="btn btn-edit" onClick={() => handleEdit(message)}>
+                          <i className="fas fa-edit"></i>
+                          Edit
+                        </button>
+                        <button className="btn btn-danger" onClick={() => handleDelete(message.id)}>
+                          <i className="fas fa-trash"></i>
+                          Delete
+                        </button>
                       </>
                     )}
                   </div>

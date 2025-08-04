@@ -155,9 +155,10 @@ const ScheduledMessages: React.FC = () => {
                     )}
                     {schedule.status === 'failed' && (
                       <button
-                        className="btn"
+                        className="btn btn-retry"
                         onClick={() => handleSendNow(schedule.id)}
                       >
+                        <i className="fas fa-redo"></i>
                         Retry
                       </button>
                     )}
@@ -166,6 +167,7 @@ const ScheduledMessages: React.FC = () => {
                         className="btn btn-danger"
                         onClick={() => handleDelete(schedule.id)}
                       >
+                        <i className="fas fa-trash"></i>
                         Delete
                       </button>
                     )}

@@ -120,9 +120,10 @@ const MessageScheduler: React.FC = () => {
             </select>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-new-message"
               onClick={() => setShowMessageForm(true)}
             >
+              <i className="fas fa-plus"></i>
               New Message
             </button>
           </div>
@@ -157,8 +158,18 @@ const MessageScheduler: React.FC = () => {
           />
         </div>
 
-        <button type="submit" className="btn" disabled={loading}>
-          {loading ? 'Scheduling...' : 'Schedule Message'}
+        <button type="submit" className="btn btn-schedule" disabled={loading}>
+          {loading ? (
+            <>
+              <i className="fas fa-spinner fa-spin"></i>
+              Scheduling...
+            </>
+          ) : (
+            <>
+              <i className="fas fa-clock"></i>
+              Schedule Message
+            </>
+          )}
         </button>
       </form>
     </div>

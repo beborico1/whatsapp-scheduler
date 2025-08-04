@@ -115,7 +115,7 @@ const RecipientManager: React.FC = () => {
       {activeTab === 'recipients' && (
         <>
           <div style={{ marginBottom: '1rem' }}>
-            <button className="btn" onClick={() => setShowRecipientForm(true)}>
+            <button className="btn btn-add-recipient" onClick={() => setShowRecipientForm(true)}>
               <i className="fas fa-user-plus"></i> Add Recipient
             </button>
           </div>
@@ -170,7 +170,7 @@ const RecipientManager: React.FC = () => {
       {activeTab === 'groups' && (
         <>
           <div style={{ marginBottom: '1rem' }}>
-            <button className="btn" onClick={() => setShowGroupForm(true)}>
+            <button className="btn btn-create-group" onClick={() => setShowGroupForm(true)}>
               <i className="fas fa-users-cog"></i> Create Group
             </button>
           </div>

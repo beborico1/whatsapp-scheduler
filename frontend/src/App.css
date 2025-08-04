@@ -9,7 +9,7 @@
   --accent: #0066FF;
   --accent-hover: #0052CC;
   
-  --background: #F7F7F7;
+  --background: #EBE5DE;
   --surface: #FFFFFF;
   --surface-hover: #FAFAFA;
   --border: #E5E5E5;
@@ -89,7 +89,7 @@ p {
 
 /* Navigation */
 .navbar {
-  background: var(--surface);
+  background: #285C54;
   border-bottom: 1px solid var(--border-light);
   padding: var(--spacing-md) var(--spacing-xl);
   position: sticky;
@@ -105,12 +105,11 @@ p {
   height: 32px;
   width: 32px;
   object-fit: contain;
-  opacity: 0.8;
   transition: var(--transition);
+  filter: brightness(0) invert(1);
 }
 
 .navbar-logo:hover {
-  opacity: 1;
   transform: scale(1.05);
 }
 
@@ -123,7 +122,7 @@ p {
 }
 
 .navbar a {
-  color: var(--text-secondary);
+  color: #FFFFFF;
   text-decoration: none;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
@@ -136,8 +135,8 @@ p {
 }
 
 .navbar a:hover {
-  color: var(--text-primary);
-  background: var(--surface-hover);
+  color: #FFFFFF;
+  background: #408A7E;
 }
 
 .navbar a i {
@@ -181,6 +180,10 @@ p {
   font-size: 1.125rem;
 }
 
+.card h2 .fa-address-book {
+  color: #408A7E;
+}
+
 /* Form Elements */
 .form-group {
   margin-bottom: var(--spacing-lg);
@@ -199,8 +202,8 @@ p {
 .form-group select {
   width: 100%;
   padding: var(--spacing-sm) var(--spacing-md);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: #FFFFFF;
+  border: 1px solid #EBE5DE;
   border-radius: var(--radius-md);
   font-size: 14px;
   color: var(--text-primary);
@@ -213,7 +216,7 @@ p {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23285C54' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1.25rem;
@@ -221,6 +224,11 @@ p {
 
 .form-group input[type="datetime-local"] {
   padding-right: 3rem;
+}
+
+.form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(24%) sepia(58%) saturate(635%) hue-rotate(131deg) brightness(94%) contrast(86%);
+  cursor: pointer;
 }
 
 .form-group input:hover,
@@ -234,7 +242,7 @@ p {
 .form-group select:focus {
   outline: none;
   border-color: var(--accent);
-  background: var(--surface);
+  background: #FFFFFF;
 }
 
 .form-group textarea {
@@ -244,9 +252,9 @@ p {
 
 /* Buttons */
 .btn {
-  background: var(--primary);
-  color: white;
-  border: 1px solid var(--primary);
+  background: #65D072;
+  color: #285C54;
+  border: 1px solid #65D072;
   padding: var(--spacing-sm) var(--spacing-lg);
   border-radius: var(--radius-md);
   font-size: 14px;
@@ -259,7 +267,7 @@ p {
 }
 
 .btn:hover {
-  background: var(--text-primary);
+  background: #52B85E;
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
@@ -289,18 +297,94 @@ p {
 }
 
 .btn-danger {
-  background: var(--error);
-  border-color: var(--error);
+  background: #E85D65;
+  border-color: #E85D65;
+  color: white;
 }
 
 .btn-danger:hover {
-  background: #E53E3E;
-  border-color: #E53E3E;
+  background: #D94A52;
+  border-color: #D94A52;
+  color: white;
 }
 
 .btn-sm {
   padding: var(--spacing-xs) var(--spacing-md);
   font-size: 13px;
+}
+
+.btn-schedule {
+  background: #408A7E;
+  border-color: #408A7E;
+  color: white;
+}
+
+.btn-schedule:hover {
+  background: #357066;
+  border-color: #357066;
+  color: white;
+}
+
+.btn-new-message {
+  background: white;
+  border-color: #285C54;
+  color: #285C54;
+}
+
+.btn-new-message:hover {
+  background: #F5F5F5;
+  border-color: #285C54;
+  color: #285C54;
+}
+
+.btn-create-message {
+  background: white;
+  border-color: #285C54;
+  color: #285C54;
+}
+
+.btn-create-message:hover {
+  background: #F5F5F5;
+  border-color: #285C54;
+  color: #285C54;
+}
+
+.btn-add-recipient,
+.btn-create-group {
+  background: #408A7E;
+  border-color: #408A7E;
+  color: white;
+}
+
+.btn-add-recipient:hover,
+.btn-create-group:hover {
+  background: #357066;
+  border-color: #357066;
+  color: white;
+}
+
+.btn-retry {
+  background: #408A7E;
+  border-color: #408A7E;
+  color: white;
+}
+
+.btn-retry:hover {
+  background: #357066;
+  border-color: #357066;
+  color: white;
+}
+
+.btn-edit {
+  background: #408A7E;
+  border-color: #408A7E;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #357066;
+  border-color: #357066;
+  color: white;
 }
 
 .btn i {
@@ -334,9 +418,10 @@ p {
 /* Table */
 .table {
   width: 100%;
-  border-collapse: collapse;
-  background: var(--background);
-  border: 1px solid var(--border-light);
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface);
+  border: 1px solid #EBE5DE;
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -345,11 +430,11 @@ p {
 .table td {
   padding: var(--spacing-md);
   text-align: left;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid #EBE5DE;
 }
 
 .table th {
-  background: var(--surface);
+  background: #F5F5F5;
   font-weight: 600;
   font-size: 13px;
   color: var(--text-secondary);
@@ -358,11 +443,24 @@ p {
 }
 
 .table tr:hover {
-  background: var(--surface);
+  background: #FAFAFA;
 }
 
 .table tr:last-child td {
   border-bottom: none;
+}
+
+.table td .actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin: 0;
+  align-items: center;
+}
+
+.table td .btn {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 13px;
+  margin: 0;
 }
 
 /* Status Badge */
@@ -530,7 +628,7 @@ p {
   width: 40px;
   height: 40px;
   border: 3px solid var(--border);
-  border-top-color: var(--accent);
+  border-top-color: #65D072;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto var(--spacing-lg);
@@ -590,9 +688,18 @@ p {
   font-size: 14px;
 }
 
+.tab-button i {
+  color: #408A7E;
+  margin-right: var(--spacing-xs);
+}
+
 .tab-button.active {
   color: var(--text-primary);
-  border-bottom-color: var(--accent);
+  border-bottom-color: #285C54;
+}
+
+.tab-button.active i {
+  color: #285C54;
 }
 
 .tab-button:hover:not(.active) {
