@@ -302,6 +302,18 @@ body::before {
   box-shadow: 0 0 0 4px rgba(0, 215, 87, 0.1);
 }
 
+/* Style datetime-local input calendar icon */
+.form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+  opacity: 0.8;
+  transition: var(--transition-fast);
+}
+
+.form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
 .form-group textarea {
   min-height: 140px;
   resize: vertical;
