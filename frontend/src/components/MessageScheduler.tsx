@@ -157,42 +157,43 @@ const MessageScheduler: React.FC = () => {
 
         <div className="form-group">
           <label htmlFor="scheduledTime">{t('scheduler.scheduleDateTime')}</label>
-          <div className="custom-datepicker">
-            <DatePicker
-              selected={scheduledTime}
-              onChange={(date) => setScheduledTime(date)}
-              onCalendarOpen={() => {
-                if (!scheduledTime) {
-                  setScheduledTime(new Date());
-                }
-              }}
-              showTimeInput
-              dateFormat="MMM d, yyyy HH:mm:ss"
-              minDate={new Date()}
-              placeholderText={t('scheduler.selectDateTime')}
-              required
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode="select"
-              timeCaption="Time"
-              timeInputLabel="Time:"
-            />
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <div className="custom-datepicker" style={{ flex: 1 }}>
+              <DatePicker
+                selected={scheduledTime}
+                onChange={(date) => setScheduledTime(date)}
+                onCalendarOpen={() => {
+                  if (!scheduledTime) {
+                    setScheduledTime(new Date());
+                  }
+                }}
+                showTimeInput
+                dateFormat="MMM d, yyyy HH:mm:ss"
+                minDate={new Date()}
+                placeholderText={t('scheduler.selectDateTime')}
+                required
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="select"
+                timeCaption="Time"
+                timeInputLabel="Time:"
+              />
+            </div>
+            <button type="submit" className="btn btn-schedule" disabled={loading}>
+              {loading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i>
+                  {t('scheduler.scheduling')}
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-clock"></i>
+                  {t('scheduler.scheduleButton')}
+                </>
+              )}
+            </button>
           </div>
         </div>
-
-        <button type="submit" className="btn btn-schedule" disabled={loading}>
-          {loading ? (
-            <>
-              <i className="fas fa-spinner fa-spin"></i>
-              {t('scheduler.scheduling')}
-            </>
-          ) : (
-            <>
-              <i className="fas fa-clock"></i>
-              {t('scheduler.scheduleButton')}
-            </>
-          )}
-        </button>
       </form>
     </div>
 

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { scheduleApi, ScheduledMessage } from '../services/api';
 import { format } from 'date-fns';
 import Select from 'react-select';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ScheduledMessages: React.FC = () => {
+  const { t } = useLanguage();
   const [schedules, setSchedules] = useState<ScheduledMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('');
@@ -26,23 +28,23 @@ const ScheduledMessages: React.FC = () => {
   };
 
   const handleCancel = async (id: number) => {
-    if (window.confirm('Are you sure you want to cancel this scheduled message?')) {
+    if (window.confirm(t('scheduled.confirmCancel'))) {
       try {
         await scheduleApi.cancel(id);
         fetchSchedules();
       } catch (err: any) {
-        alert(err.response?.data?.detail || 'Error cancelling message');
+        alert(err.response?.data?.detail || t('scheduled.errorCancel'));
       }
     }
   };
 
   const handleSendNow = async (id: number) => {
-    if (window.confirm('Are you sure you want to send this message immediately?')) {
+    if (window.confirm(t('scheduled.confirmSendNow'))) {
       try {
         await scheduleApi.sendNow(id);
         fetchSchedules();
       } catch (err: any) {
-        alert(err.response?.data?.detail || 'Error sending message');
+        alert(err.response?.data?.detail || t('scheduled.errorSend'));
       }
     }
   };
@@ -70,24 +72,24 @@ const ScheduledMessages: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="loading">Loading scheduled messages...</div>;
+  if (loading) return <div className="loading">{t('scheduled.loading')}</div>;
 
   return (
     <div className="card">
-      <h2>Scheduled Messages</h2>
+      <h2>{t('scheduled.title')}</h2>
       
       <div className="form-group">
-        <label htmlFor="filter">Filter by Status</label>
+        <label htmlFor="filter">{t('scheduled.filterByStatus')}</label>
         <Select
           id="filter"
-          value={filter ? { value: filter, label: filter.charAt(0).toUpperCase() + filter.slice(1) } : { value: '', label: 'All' }}
+          value={filter ? { value: filter, label: t(`scheduled.status${filter.charAt(0).toUpperCase() + filter.slice(1)}`) } : { value: '', label: t('scheduled.all') }}
           onChange={(option) => setFilter(option?.value || '')}
           options={[
-            { value: '', label: 'All' },
-            { value: 'pending', label: 'Pending' },
-            { value: 'sent', label: 'Sent' },
-            { value: 'failed', label: 'Failed' },
-            { value: 'cancelled', label: 'Cancelled' }
+            { value: '', label: t('scheduled.all') },
+            { value: 'pending', label: t('scheduled.statusPending') },
+            { value: 'sent', label: t('scheduled.statusSent') },
+            { value: 'failed', label: t('scheduled.statusFailed') },
+            { value: 'cancelled', label: t('scheduled.statusCancelled') }
           ]}
           className="custom-select-container"
           classNamePrefix="custom-select"
@@ -95,16 +97,16 @@ const ScheduledMessages: React.FC = () => {
       </div>
 
       {schedules.length === 0 ? (
-        <p>No scheduled messages found.</p>
+        <p>{t('scheduled.noScheduled')}</p>
       ) : (
         <table className="table">
           <thead>
             <tr>
-              <th>Message</th>
-              <th>Group</th>
-              <th>Scheduled Time</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>{t('scheduled.message')}</th>
+              <th>{t('scheduled.group')}</th>
+              <th>{t('scheduled.scheduledTime')}</th>
+              <th>{t('scheduled.status')}</th>
+              <th>{t('scheduled.actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -118,20 +120,20 @@ const ScheduledMessages: React.FC = () => {
                 <td>
                   {schedule.group.name}
                   <br />
-                  <small>{schedule.group.recipients?.length || 0} recipients</small>
+                  <small>{schedule.group.recipients?.length || 0} {t('scheduler.recipients')}</small>
                 </td>
                 <td>
                   {format(new Date(schedule.scheduled_time), 'MMM d, yyyy h:mm a')}
                   {schedule.sent_at && (
                     <>
                       <br />
-                      <small>Sent: {format(new Date(schedule.sent_at), 'MMM d, yyyy h:mm a')}</small>
+                      <small>{t('scheduled.sent')}: {format(new Date(schedule.sent_at), 'MMM d, yyyy h:mm a')}</small>
                     </>
                   )}
                 </td>
                 <td>
                   <span className={getStatusBadgeClass(schedule.status)}>
-                    {schedule.status}
+                    {t(`scheduled.status${schedule.status.charAt(0).toUpperCase() + schedule.status.slice(1)}`)}
                   </span>
                   {schedule.error_message && (
                     <>
@@ -148,13 +150,13 @@ const ScheduledMessages: React.FC = () => {
                           className="btn btn-secondary"
                           onClick={() => handleSendNow(schedule.id)}
                         >
-                          Send Now
+                          {t('scheduled.sendNow')}
                         </button>
                         <button
                           className="btn btn-danger"
                           onClick={() => handleCancel(schedule.id)}
                         >
-                          Cancel
+                          {t('scheduled.cancel')}
                         </button>
                       </>
                     )}

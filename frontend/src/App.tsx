@@ -22,18 +22,7 @@ function AppContent() {
           </ul>
         </div>
         <div className="language-toggle">
-          <button
-            className={`lang-btn ${language === 'en' ? 'active' : ''}`}
-            onClick={() => setLanguage('en')}
-          >
-            EN
-          </button>
-          <button
-            className={`lang-btn ${language === 'es' ? 'active' : ''}`}
-            onClick={() => setLanguage('es')}
-          >
-            ES
-          </button>
+          <button className={`lang-btn ${language === 'en' ? 'active' : ''}`} onClick={() => setLanguage('en')}>EN</button><button className={`lang-btn ${language === 'es' ? 'active' : ''}`} onClick={() => setLanguage('es')}>ES</button>
         </div>
       </nav>
         

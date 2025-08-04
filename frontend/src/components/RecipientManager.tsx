@@ -67,7 +67,7 @@ const RecipientManager: React.FC = () => {
     
     // Validate phone number
     if (!isValidPhoneNumber(newRecipient.phone_number)) {
-      alert('Please enter a valid phone number with country code (e.g., +1234567890)');
+      alert(t('recipients.invalidPhone'));
       return;
     }
     
@@ -84,7 +84,7 @@ const RecipientManager: React.FC = () => {
       setShowRecipientForm(false);
       fetchData(); // Refresh to get updated group memberships
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Error creating recipient');
+      alert(err.response?.data?.detail || t('recipients.errorCreateRecipient'));
     }
   };
 
@@ -97,12 +97,12 @@ const RecipientManager: React.FC = () => {
       setShowGroupForm(false);
       fetchData(); // Refresh to get updated memberships
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Error creating group');
+      alert(err.response?.data?.detail || t('recipients.errorCreateGroup'));
     }
   };
 
   const handleDeleteRecipient = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this recipient?')) {
+    if (window.confirm(t('recipients.confirmDeleteRecipient'))) {
       try {
         await recipientApi.delete(id);
         setRecipients(recipients.filter(r => r.id !== id));
@@ -113,7 +113,7 @@ const RecipientManager: React.FC = () => {
   };
 
   const handleDeleteGroup = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this group?')) {
+    if (window.confirm(t('recipients.confirmDeleteGroup'))) {
       try {
         await groupApi.delete(id);
         setGroups(groups.filter(g => g.id !== id));
@@ -123,34 +123,43 @@ const RecipientManager: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) return <div className="loading">{t('recipients.loading')}</div>;
 
   return (
     <div className="card">
-      <h2><i className="fas fa-address-book"></i> Recipients & Groups</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <h2 style={{ margin: 0 }}><i className="fas fa-address-book"></i> {t('recipients.title')}</h2>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {activeTab === 'recipients' && (
+            <button className="btn btn-header-add-recipient" onClick={() => setShowRecipientForm(true)}>
+              <i className="fas fa-user-plus"></i> {t('recipients.addRecipient')}
+            </button>
+          )}
+          {activeTab === 'groups' && (
+            <button className="btn btn-header-create-group" onClick={() => setShowGroupForm(true)}>
+              <i className="fas fa-users-cog"></i> {t('recipients.createGroup')}
+            </button>
+          )}
+        </div>
+      </div>
       
       <div className="tab-buttons">
         <button
           className={`tab-button ${activeTab === 'recipients' ? 'active' : ''}`}
           onClick={() => setActiveTab('recipients')}
         >
-          <i className="fas fa-user"></i> Recipients ({recipients.length})
+          <i className="fas fa-user"></i> {t('recipients.recipients')} ({recipients.length})
         </button>
         <button
           className={`tab-button ${activeTab === 'groups' ? 'active' : ''}`}
           onClick={() => setActiveTab('groups')}
         >
-          <i className="fas fa-users"></i> Groups ({groups.length})
+          <i className="fas fa-users"></i> {t('recipients.groups')} ({groups.length})
         </button>
       </div>
 
       {activeTab === 'recipients' && (
         <>
-          <div style={{ marginBottom: '1rem' }}>
-            <button className="btn btn-add-recipient" onClick={() => setShowRecipientForm(true)}>
-              <i className="fas fa-user-plus"></i> Add Recipient
-            </button>
-          </div>
           
           {recipients.length === 0 ? (
             <EmptyState
@@ -166,10 +175,10 @@ const RecipientManager: React.FC = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Phone Number</th>
-                  <th>Groups</th>
-                  <th>Actions</th>
+                  <th>{t('recipients.name')}</th>
+                  <th>{t('recipients.phoneNumber')}</th>
+                  <th>{t('recipients.groups')}</th>
+                  <th>{t('recipients.actions')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -181,14 +190,14 @@ const RecipientManager: React.FC = () => {
                       {groups
                         .filter(g => g.recipients?.some(r => r.id === recipient.id))
                         .map(g => g.name)
-                        .join(', ') || 'None'}
+                        .join(', ') || t('recipients.none')}
                     </td>
                     <td>
                       <button
                         className="btn btn-danger"
                         onClick={() => handleDeleteRecipient(recipient.id)}
                       >
-                        <i className="fas fa-trash"></i> Delete
+                        <i className="fas fa-trash"></i> {t('recipients.delete')}
                       </button>
                     </td>
                   </tr>
@@ -201,11 +210,6 @@ const RecipientManager: React.FC = () => {
 
       {activeTab === 'groups' && (
         <>
-          <div style={{ marginBottom: '1rem' }}>
-            <button className="btn btn-create-group" onClick={() => setShowGroupForm(true)}>
-              <i className="fas fa-users-cog"></i> Create Group
-            </button>
-          </div>
           
           {groups.length === 0 ? (
             <EmptyState
@@ -253,12 +257,12 @@ const RecipientManager: React.FC = () => {
         <div className="modal">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>Add Recipient</h3>
+              <h3>{t('recipients.addRecipient')}</h3>
               <button className="close-btn" onClick={() => setShowRecipientForm(false)}>×</button>
             </div>
             <form onSubmit={handleCreateRecipient}>
               <div className="form-group">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">{t('recipients.name')}</label>
                 <input
                   type="text"
                   id="name"
@@ -268,11 +272,11 @@ const RecipientManager: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="phone">Phone Number (with country code)</label>
+                <label htmlFor="phone">{t('recipients.phoneNumberWithCode')}</label>
                 <input
                   type="text"
                   id="phone"
-                  placeholder="+1 (234) 567-8900"
+                  placeholder={t('recipients.phonePlaceholder')}
                   value={newRecipient.phone_number}
                   onChange={(e) => {
                     const formatted = formatPhoneNumber(e.target.value);
@@ -282,19 +286,19 @@ const RecipientManager: React.FC = () => {
                 />
                 {newRecipient.phone_number && !isValidPhoneNumber(newRecipient.phone_number) && (
                   <small style={{ color: '#e74c3c', marginTop: '0.25rem', display: 'block' }}>
-                    Please enter a valid phone number with country code
+                    {t('recipients.validPhoneError')}
                   </small>
                 )}
               </div>
               <div className="form-group">
-                <label>Add to Groups</label>
+                <label>{t('recipients.addToGroups')}</label>
                 <div className="recipient-list">
                   {groups.length === 0 ? (
                     <div className="empty-state-inline">
                       <div className="empty-state-inline-icon">
                         <i className="fas fa-users"></i>
                       </div>
-                      <p>No groups available yet</p>
+                      <p>{t('recipients.noGroupsAvailable')}</p>
                       <button
                         type="button"
                         className="btn btn-create-first"
@@ -304,7 +308,7 @@ const RecipientManager: React.FC = () => {
                         }}
                       >
                         <i className="fas fa-plus"></i>
-                        Create First Group
+                        {t('recipients.createFirstGroup')}
                       </button>
                     </div>
                   ) : (
@@ -334,9 +338,9 @@ const RecipientManager: React.FC = () => {
                 </div>
               </div>
               <div className="actions">
-                <button type="submit" className="btn btn-modal-primary">Add Recipient</button>
+                <button type="submit" className="btn btn-modal-primary">{t('recipients.addRecipient')}</button>
                 <button type="button" className="btn btn-modal-cancel" onClick={() => setShowRecipientForm(false)}>
-                  Cancel
+                  {t('recipients.cancel')}
                 </button>
               </div>
             </form>
@@ -348,12 +352,12 @@ const RecipientManager: React.FC = () => {
         <div className="modal">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>Create Group</h3>
+              <h3>{t('recipients.createGroup')}</h3>
               <button className="close-btn" onClick={() => setShowGroupForm(false)}>×</button>
             </div>
             <form onSubmit={handleCreateGroup}>
               <div className="form-group">
-                <label htmlFor="groupName">Group Name</label>
+                <label htmlFor="groupName">{t('recipients.groupName')}</label>
                 <input
                   type="text"
                   id="groupName"
@@ -363,7 +367,7 @@ const RecipientManager: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="description">Description (optional)</label>
+                <label htmlFor="description">{t('recipients.descriptionOptional')}</label>
                 <input
                   type="text"
                   id="description"
@@ -372,14 +376,14 @@ const RecipientManager: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Add Recipients</label>
+                <label>{t('recipients.addRecipients')}</label>
                 <div className="recipient-list">
                   {recipients.length === 0 ? (
                     <div className="empty-state-inline">
                       <div className="empty-state-inline-icon">
                         <i className="fas fa-user-plus"></i>
                       </div>
-                      <p>No recipients available yet</p>
+                      <p>{t('recipients.noRecipientsAvailable')}</p>
                       <button
                         type="button"
                         className="btn btn-create-first"
@@ -389,7 +393,7 @@ const RecipientManager: React.FC = () => {
                         }}
                       >
                         <i className="fas fa-plus"></i>
-                        Add First Recipient
+                        {t('recipients.addFirstRecipient')}
                       </button>
                     </div>
                   ) : (
@@ -419,9 +423,9 @@ const RecipientManager: React.FC = () => {
                 </div>
               </div>
               <div className="actions">
-                <button type="submit" className="btn btn-modal-primary">Create Group</button>
+                <button type="submit" className="btn btn-modal-primary">{t('recipients.createGroup')}</button>
                 <button type="button" className="btn btn-modal-cancel" onClick={() => setShowGroupForm(false)}>
-                  Cancel
+                  {t('recipients.cancel')}
                 </button>
               </div>
             </form>
