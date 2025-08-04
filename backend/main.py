@@ -4,7 +4,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from dotenv import load_dotenv
 import os
 
-from app.api import messages, recipients, schedules
+from app.api import messages, recipients, schedules, debug
 from app.database import Base
 
 load_dotenv()
@@ -35,6 +35,7 @@ app.add_middleware(
 app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
 app.include_router(recipients.router, prefix="/api/recipients", tags=["recipients"])
 app.include_router(schedules.router, prefix="/api/schedules", tags=["schedules"])
+app.include_router(debug.router, prefix="/api/debug", tags=["debug"])
 
 @app.get("/")
 def read_root():
