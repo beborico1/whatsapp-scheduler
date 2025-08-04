@@ -1,0 +1,53 @@
+{
+  "name": "WhatsApp Scheduler",
+  "description": "Schedule WhatsApp messages with ease",
+  "repository": "https://github.com/yourusername/whatsapp-scheduler",
+  "addons": [
+    "heroku-postgresql:mini",
+    "heroku-redis:mini"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "Secret key for sessions",
+      "generator": "secret"
+    },
+    "WHATSAPP_ACCESS_TOKEN": {
+      "description": "WhatsApp API access token",
+      "required": true
+    },
+    "WHATSAPP_APP_ID": {
+      "description": "WhatsApp App ID",
+      "required": true
+    },
+    "WHATSAPP_APP_SECRET": {
+      "description": "WhatsApp App Secret",
+      "required": true
+    },
+    "WHATSAPP_PHONE_NUMBER_ID": {
+      "description": "WhatsApp Phone Number ID",
+      "required": true
+    },
+    "WHATSAPP_VERIFY_TOKEN": {
+      "description": "WhatsApp Verify Token",
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  }
+}
