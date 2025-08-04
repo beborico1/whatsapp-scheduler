@@ -241,7 +241,7 @@ p {
 .form-group textarea:focus,
 .form-group select:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: #65D072;
   background: #FFFFFF;
 }
 
@@ -806,6 +806,6 @@ p {
 
 /* Focus Visible */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #65D072;
   outline-offset: 2px;
 }
