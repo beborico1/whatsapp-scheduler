@@ -834,7 +834,7 @@ body::before {
   width: 120px;
   height: 120px;
   margin: 0 auto 2rem;
-  background: var(--gradient-surface);
+  background: var(--surface-light);
   border-radius: 50%;
   display: flex;
   align-items: center;
