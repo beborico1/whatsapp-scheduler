@@ -83,11 +83,11 @@ export const recipientApi = {
 };
 
 export const groupApi = {
-  getAll: () => api.get<RecipientGroup[]>('/recipients/groups/'),
-  getOne: (id: number) => api.get<RecipientGroup>(`/recipients/groups/${id}/`),
-  create: (data: { name: string; description?: string; recipient_ids?: number[] }) => api.post<RecipientGroup>('/recipients/groups/', data),
-  updateRecipients: (id: number, recipientIds: number[]) => api.put<RecipientGroup>(`/recipients/groups/${id}/recipients/`, recipientIds),
-  delete: (id: number) => api.delete(`/recipients/groups/${id}/`),
+  getAll: () => api.get<RecipientGroup[]>('/recipients/groups'),
+  getOne: (id: number) => api.get<RecipientGroup>(`/recipients/groups/${id}`),
+  create: (data: { name: string; description?: string; recipient_ids?: number[] }) => api.post<RecipientGroup>('/recipients/groups', data),
+  updateRecipients: (id: number, recipientIds: number[]) => api.put<RecipientGroup>(`/recipients/groups/${id}/recipients`, recipientIds),
+  delete: (id: number) => api.delete(`/recipients/groups/${id}`),
 };
 
 export const scheduleApi = {
