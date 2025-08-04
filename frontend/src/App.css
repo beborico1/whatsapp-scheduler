@@ -26,8 +26,22 @@ body {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.navbar h1 {
+.navbar-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.navbar-logo {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 1.75rem;
 }
 
 .navbar ul {
@@ -274,4 +288,23 @@ body {
   text-align: center;
   padding: 2rem;
   color: #666;
+}
+
+.welcome-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+}
+
+.welcome-logo {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.welcome-text {
+  font-size: 1.25rem;
+  color: #666;
+  margin: 0;
 }

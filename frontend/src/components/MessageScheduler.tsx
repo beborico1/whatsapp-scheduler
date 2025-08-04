@@ -88,11 +88,17 @@ const MessageScheduler: React.FC = () => {
   const minDateTime = format(new Date(), "yyyy-MM-dd'T'HH:mm");
 
   return (
-    <div className="card">
-      <h2>Schedule a WhatsApp Message</h2>
+    <>
+      <div className="welcome-section">
+        <img src="/logo.png" alt="WhatsApp Scheduler" className="welcome-logo" />
+        <p className="welcome-text">Schedule your WhatsApp messages with ease</p>
+      </div>
       
-      {error && <div className="message error">{error}</div>}
-      {success && <div className="message success">{success}</div>}
+      <div className="card">
+        <h2>Schedule a WhatsApp Message</h2>
+        
+        {error && <div className="message error">{error}</div>}
+        {success && <div className="message success">{success}</div>}
 
       <form onSubmit={handleSchedule}>
         <div className="form-group">
@@ -204,7 +210,7 @@ const MessageScheduler: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
