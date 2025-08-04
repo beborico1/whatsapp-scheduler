@@ -11,6 +11,9 @@ RUN npm ci
 # Copy the rest of the application
 COPY . .
 
+# Build the React app
+RUN npm run build
+
 # Expose port
 EXPOSE 3000
 
