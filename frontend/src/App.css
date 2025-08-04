@@ -9,9 +9,9 @@
   --accent: #0066FF;
   --accent-hover: #0052CC;
   
-  --background: #FFFFFF;
-  --surface: #FAFAFA;
-  --surface-hover: #F5F5F5;
+  --background: #F7F7F7;
+  --surface: #FFFFFF;
+  --surface-hover: #FAFAFA;
   --border: #E5E5E5;
   --border-light: #F0F0F0;
   
@@ -89,7 +89,7 @@ p {
 
 /* Navigation */
 .navbar {
-  background: var(--background);
+  background: var(--surface);
   border-bottom: 1px solid var(--border-light);
   padding: var(--spacing-md) var(--spacing-xl);
   position: sticky;
@@ -98,6 +98,7 @@ p {
   display: flex;
   align-items: center;
   gap: var(--spacing-2xl);
+  box-shadow: var(--shadow-sm);
 }
 
 .navbar-logo {
@@ -154,7 +155,7 @@ p {
 
 /* Card */
 .card {
-  background: var(--background);
+  background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
@@ -207,6 +208,21 @@ p {
   font-family: inherit;
 }
 
+.form-group select {
+  padding-right: 3.5rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+}
+
+.form-group input[type="datetime-local"] {
+  padding-right: 3rem;
+}
+
 .form-group input:hover,
 .form-group textarea:hover,
 .form-group select:hover {
@@ -218,7 +234,7 @@ p {
 .form-group select:focus {
   outline: none;
   border-color: var(--accent);
-  background: var(--background);
+  background: var(--surface);
 }
 
 .form-group textarea {
@@ -419,7 +435,7 @@ p {
 }
 
 .modal-content {
-  background: var(--background);
+  background: var(--surface);
   padding: var(--spacing-xl);
   border-radius: var(--radius-lg);
   max-width: 600px;
