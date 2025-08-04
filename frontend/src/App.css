@@ -96,21 +96,18 @@ body::before {
   top: 0;
   z-index: 1000;
   transition: var(--transition-base);
-}
-
-.navbar-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 2rem;
 }
 
 .navbar-logo {
-  height: 48px;
-  width: 48px;
+  height: 40px;
+  width: 40px;
   object-fit: contain;
   filter: drop-shadow(0 0 20px rgba(0, 215, 87, 0.5));
   transition: var(--transition-base);
+  flex-shrink: 0;
 }
 
 .navbar-logo:hover {
@@ -118,22 +115,13 @@ body::before {
   filter: drop-shadow(0 0 30px rgba(0, 215, 87, 0.8));
 }
 
-.navbar h1 {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  background: var(--gradient-glow);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 0 30px rgba(0, 215, 87, 0.5);
-}
-
 .navbar ul {
   list-style: none;
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar a {

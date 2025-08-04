@@ -11,10 +11,7 @@ function App() {
     <Router>
       <div className="App">
         <nav className="navbar">
-          <div className="navbar-header">
-            <img src="/logo-mini.png" alt="WhatsApp Scheduler Logo" className="navbar-logo" />
-            <h1>WhatsApp Scheduler</h1>
-          </div>
+          <img src="/logo-mini.png" alt="WhatsApp Scheduler Logo" className="navbar-logo" />
           <ul>
             <li><Link to="/"><i className="fas fa-clock"></i> Schedule Message</Link></li>
             <li><Link to="/messages"><i className="fas fa-comment-dots"></i> Messages</Link></li>
