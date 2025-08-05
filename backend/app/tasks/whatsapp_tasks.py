@@ -13,8 +13,9 @@ print("🚀🚀🚀 WORKER STARTUP: Updated whatsapp_tasks.py is loaded! 🚀�
 # Test database connection immediately
 try:
     from app.database import SessionLocal
+    from sqlalchemy import text
     test_db = SessionLocal()
-    test_db.execute("SELECT 1")
+    test_db.execute(text("SELECT 1"))
     test_db.close()
     print("✅ Database connection test PASSED")
 except Exception as e:
