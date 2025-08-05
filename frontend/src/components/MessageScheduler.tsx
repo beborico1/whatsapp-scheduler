@@ -106,7 +106,7 @@ const MessageScheduler: React.FC = () => {
       <form onSubmit={handleSchedule}>
         <div className="form-group">
           <label htmlFor="message">{t('scheduler.message')}</label>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div className="form-input-group">
             <Select
               id="message"
               value={messages.find(msg => msg.id === selectedMessage) ? { value: selectedMessage, label: messages.find(msg => msg.id === selectedMessage)!.title } : null}
@@ -115,7 +115,6 @@ const MessageScheduler: React.FC = () => {
               placeholder={t('scheduler.selectMessage')}
               className="custom-select-container"
               classNamePrefix="custom-select"
-              styles={{ container: (provided) => ({ ...provided, flex: 1 }) }}
             />
             <button
               type="button"
@@ -130,7 +129,7 @@ const MessageScheduler: React.FC = () => {
 
         <div className="form-group">
           <label htmlFor="group">{t('scheduler.recipientGroup')}</label>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div className="form-input-group">
             <Select
               id="group"
               value={groups.find(grp => grp.id === selectedGroup) ? { value: selectedGroup, label: `${groups.find(grp => grp.id === selectedGroup)!.name} (${groups.find(grp => grp.id === selectedGroup)!.recipients?.length || 0} ${t('scheduler.recipients')})` } : null}
@@ -142,7 +141,6 @@ const MessageScheduler: React.FC = () => {
               placeholder={t('scheduler.selectGroup')}
               className="custom-select-container"
               classNamePrefix="custom-select"
-              styles={{ container: (provided) => ({ ...provided, flex: 1 }) }}
             />
             <button
               type="button"
@@ -157,8 +155,8 @@ const MessageScheduler: React.FC = () => {
 
         <div className="form-group">
           <label htmlFor="scheduledTime">{t('scheduler.scheduleDateTime')}</label>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <div className="custom-datepicker" style={{ flex: 1 }}>
+          <div className="form-input-group">
+            <div className="custom-datepicker">
               <DatePicker
                 selected={scheduledTime}
                 onChange={(date) => setScheduledTime(date)}

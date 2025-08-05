@@ -3,7 +3,7 @@ region: nyc
 services:
   - name: backend
     github:
-      repo: yourusername/whatsapp-scheduler
+      repo: beborico1/whatsapp-scheduler
       branch: main
       deploy_on_push: true
     source_dir: backend
@@ -39,7 +39,7 @@ services:
     
   - name: worker
     github:
-      repo: yourusername/whatsapp-scheduler
+      repo: beborico1/whatsapp-scheduler
       branch: main
     source_dir: backend
     dockerfile_path: backend/Dockerfile
@@ -71,7 +71,7 @@ services:
     
   - name: frontend
     github:
-      repo: yourusername/whatsapp-scheduler
+      repo: beborico1/whatsapp-scheduler
       branch: main
     source_dir: frontend
     dockerfile_path: frontend/Dockerfile

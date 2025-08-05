@@ -127,9 +127,9 @@ const RecipientManager: React.FC = () => {
 
   return (
     <div className="card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h2 style={{ margin: 0 }}><i className="fas fa-address-book"></i> {t('recipients.title')}</h2>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+      <div className="card-header">
+        <h2 className="card-title"><i className="fas fa-address-book"></i> {t('recipients.title')}</h2>
+        <div className="card-actions">
           {activeTab === 'recipients' && (
             <button className="btn btn-header-add-recipient" onClick={() => setShowRecipientForm(true)}>
               <i className="fas fa-user-plus"></i> {t('recipients.addRecipient')}
@@ -164,46 +164,48 @@ const RecipientManager: React.FC = () => {
           {recipients.length === 0 ? (
             <EmptyState
               icon="fas fa-user-friends"
-              title="No recipients yet"
-              description="Add your first recipient to start sending WhatsApp messages"
+              title={t('recipients.noRecipients')}
+              description={t('recipients.noRecipientsDesc')}
               action={{
-                label: 'Add First Recipient',
+                label: t('recipients.addFirstRecipient'),
                 onClick: () => setShowRecipientForm(true)
               }}
             />
           ) : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>{t('recipients.name')}</th>
-                  <th>{t('recipients.phoneNumber')}</th>
-                  <th>{t('recipients.groups')}</th>
-                  <th>{t('recipients.actions')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recipients.map((recipient) => (
-                  <tr key={recipient.id}>
-                    <td>{recipient.name}</td>
-                    <td>{formatPhoneNumber(recipient.phone_number)}</td>
-                    <td>
-                      {groups
-                        .filter(g => g.recipients?.some(r => r.id === recipient.id))
-                        .map(g => g.name)
-                        .join(', ') || t('recipients.none')}
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleDeleteRecipient(recipient.id)}
-                      >
-                        <i className="fas fa-trash"></i> {t('recipients.delete')}
-                      </button>
-                    </td>
+            <div className="table-responsive">
+              <table className="table mobile-cards">
+                <thead>
+                  <tr>
+                    <th>{t('recipients.name')}</th>
+                    <th>{t('recipients.phoneNumber')}</th>
+                    <th>{t('recipients.groups')}</th>
+                    <th>{t('recipients.actions')}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {recipients.map((recipient) => (
+                    <tr key={recipient.id}>
+                      <td data-label={t('recipients.name')}>{recipient.name}</td>
+                      <td data-label={t('recipients.phoneNumber')}>{formatPhoneNumber(recipient.phone_number)}</td>
+                      <td data-label={t('recipients.groups')}>
+                        {groups
+                          .filter(g => g.recipients?.some(r => r.id === recipient.id))
+                          .map(g => g.name)
+                          .join(', ') || t('recipients.none')}
+                      </td>
+                      <td data-label={t('recipients.actions')}>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDeleteRecipient(recipient.id)}
+                        >
+                          <i className="fas fa-trash"></i> {t('recipients.delete')}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}
@@ -214,41 +216,43 @@ const RecipientManager: React.FC = () => {
           {groups.length === 0 ? (
             <EmptyState
               icon="fas fa-users"
-              title="No groups yet"
-              description="Create groups to organize your recipients and send bulk messages"
+              title={t('recipients.noGroupsYet')}
+              description={t('recipients.noGroupsDesc')}
               action={{
-                label: 'Create First Group',
+                label: t('recipients.createFirstGroup'),
                 onClick: () => setShowGroupForm(true)
               }}
             />
           ) : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Recipients</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {groups.map((group) => (
-                  <tr key={group.id}>
-                    <td>{group.name}</td>
-                    <td>{group.description || '-'}</td>
-                    <td>{group.recipients?.length || 0}</td>
-                    <td>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleDeleteGroup(group.id)}
-                      >
-                        <i className="fas fa-trash"></i> Delete
-                      </button>
-                    </td>
+            <div className="table-responsive">
+              <table className="table mobile-cards">
+                <thead>
+                  <tr>
+                    <th>{t('recipients.groupName')}</th>
+                    <th>{t('recipients.description')}</th>
+                    <th>{t('recipients.recipients')}</th>
+                    <th>{t('recipients.actions')}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {groups.map((group) => (
+                    <tr key={group.id}>
+                      <td data-label={t('recipients.groupName')}>{group.name}</td>
+                      <td data-label={t('recipients.description')}>{group.description || '-'}</td>
+                      <td data-label={t('recipients.recipients')}>{group.recipients?.length || 0}</td>
+                      <td data-label={t('recipients.actions')}>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDeleteGroup(group.id)}
+                        >
+                          <i className="fas fa-trash"></i> {t('recipients.delete')}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}

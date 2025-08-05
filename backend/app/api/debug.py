@@ -20,7 +20,7 @@ def test_whatsapp_message():
     """Test sending a WhatsApp message with hello_world template"""
     # Use the hello_world template which doesn't require parameters
     result = whatsapp_service.send_template_message(
-        recipient_phone="+526622271342",  # Your test number
+        recipient_phone="+526622271342",
         template_name="hello_world"
     )
     return result

@@ -24,7 +24,6 @@ jobs:
       - name: Run backend tests
         run: |
           cd backend
-          # Add your tests here when ready
           # pytest
       
       - name: Set up Node.js

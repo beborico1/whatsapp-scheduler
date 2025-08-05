@@ -73,8 +73,8 @@ const MessageList: React.FC = () => {
 
   return (
     <div className="card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h2>{t('messages.title')}</h2>
+      <div className="card-header">
+        <h2 className="card-title">{t('messages.title')}</h2>
         <button className="btn btn-create-message" onClick={() => setShowCreateForm(true)}>
           <i className="fas fa-plus"></i>
           {t('messages.createNewMessage')}
@@ -84,7 +84,8 @@ const MessageList: React.FC = () => {
       {messages.length === 0 ? (
         <p>{t('messages.noMessages')}</p>
       ) : (
-        <table className="table">
+        <div className="table-responsive">
+          <table className="table mobile-cards">
           <thead>
             <tr>
               <th>{t('messages.messageTitle')}</th>
@@ -96,7 +97,7 @@ const MessageList: React.FC = () => {
           <tbody>
             {messages.map((message) => (
               <tr key={message.id}>
-                <td>
+                <td data-label={t('messages.messageTitle')}>
                   {editingId === message.id ? (
                     <input
                       type="text"
@@ -110,7 +111,7 @@ const MessageList: React.FC = () => {
                     message.title
                   )}
                 </td>
-                <td>
+                <td data-label={t('messages.contentPreview')}>
                   {editingId === message.id ? (
                     <textarea
                       value={editForm.content}
@@ -123,8 +124,8 @@ const MessageList: React.FC = () => {
                     message.content.substring(0, 100) + (message.content.length > 100 ? '...' : '')
                   )}
                 </td>
-                <td>{format(new Date(message.created_at), 'MMM d, yyyy')}</td>
-                <td>
+                <td data-label={t('messages.created')}>{format(new Date(message.created_at), 'MMM d, yyyy')}</td>
+                <td data-label={t('messages.actions')}>
                   <div className="actions">
                     {editingId === message.id ? (
                       <>
@@ -139,11 +140,11 @@ const MessageList: React.FC = () => {
                       </>
                     ) : (
                       <>
-                        <button className="btn btn-edit" onClick={() => handleEdit(message)}>
+                        <button className="btn btn-edit btn-sm" onClick={() => handleEdit(message)}>
                           <i className="fas fa-edit"></i>
                           {t('messages.edit')}
                         </button>
-                        <button className="btn btn-danger" onClick={() => handleDelete(message.id)}>
+                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(message.id)}>
                           <i className="fas fa-trash"></i>
                           {t('messages.delete')}
                         </button>
@@ -155,6 +156,7 @@ const MessageList: React.FC = () => {
             ))}
           </tbody>
         </table>
+      </div>
       )}
 
       {showCreateForm && (

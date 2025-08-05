@@ -20,9 +20,15 @@ const ScheduledMessages: React.FC = () => {
       setLoading(true);
       const response = await scheduleApi.getAll(filter || undefined);
       // Sort by created_at descending (most recent first)
-      const sortedSchedules = response.data.sort((a, b) => 
+      let sortedSchedules = response.data.sort((a, b) => 
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
+      
+      // If showing "All" (empty filter), exclude archived messages
+      if (!filter) {
+        sortedSchedules = sortedSchedules.filter(schedule => schedule.status !== 'archived');
+      }
+      
       setSchedules(sortedSchedules);
     } catch (err) {
       console.error('Error fetching schedules:', err);
@@ -114,63 +120,66 @@ const ScheduledMessages: React.FC = () => {
       {schedules.length === 0 ? (
         <p>{t('scheduled.noScheduled')}</p>
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>{t('scheduled.message')}</th>
-              <th>{t('scheduled.group')}</th>
-              <th>{t('scheduled.scheduledTime')}</th>
-              <th>{t('scheduled.status')}</th>
-              <th>{t('scheduled.actions')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {schedules.map((schedule) => (
-              <tr key={schedule.id}>
-                <td>
-                  <strong>{schedule.message.title}</strong>
-                  <br />
-                  <small>{schedule.message.content.substring(0, 50)}...</small>
-                </td>
-                <td>
-                  {schedule.group.name}
-                  <br />
-                  <small>{schedule.group.recipients?.length || 0} {t('scheduler.recipients')}</small>
-                </td>
-                <td>
-                  {format(new Date(schedule.scheduled_time), 'MMM d, yyyy h:mm a')}
-                  {schedule.sent_at && (
-                    <>
-                      <br />
-                      <small>{t('scheduled.sent')}: {format(new Date(schedule.sent_at), 'MMM d, yyyy h:mm a')}</small>
-                    </>
-                  )}
-                </td>
-                <td>
-                  <span className={getStatusBadgeClass(schedule.status)}>
-                    {t(`scheduled.status${schedule.status.charAt(0).toUpperCase() + schedule.status.slice(1)}`)}
-                  </span>
-                  {schedule.error_message && (
-                    <>
-                      <br />
-                      <small style={{ color: 'red' }}>{schedule.error_message}</small>
-                    </>
-                  )}
-                </td>
-                <td>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>{t('scheduled.message')}</th>
+                <th>{t('scheduled.group')}</th>
+                <th>{t('scheduled.scheduledTime')}</th>
+                <th>{t('scheduled.status')}</th>
+                <th>{t('scheduled.actions')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {schedules.map((schedule) => (
+                <tr key={schedule.id}>
+                  <td data-label={t('scheduled.message')}>
+                    <strong>{schedule.message.title}</strong>
+                    <br />
+                    <small>{schedule.message.content.substring(0, 50)}...</small>
+                  </td>
+                  <td data-label={t('scheduled.group')}>
+                    {schedule.group.name}
+                    <br />
+                    <small>{schedule.group.recipients?.length || 0} {t('scheduler.recipients')}</small>
+                  </td>
+                  <td data-label={t('scheduled.scheduledTime')}>
+                    {format(new Date(schedule.scheduled_time), 'MMM d, yyyy h:mm a')}
+                    {schedule.sent_at && (
+                      <>
+                        <br />
+                        <small>{t('scheduled.sent')}: {format(new Date(schedule.sent_at), 'MMM d, yyyy h:mm a')}</small>
+                      </>
+                    )}
+                  </td>
+                  <td data-label={t('scheduled.status')}>
+                    <span className={getStatusBadgeClass(schedule.status)}>
+                      {t(`scheduled.status${schedule.status.charAt(0).toUpperCase() + schedule.status.slice(1)}`)}
+                    </span>
+                    {schedule.error_message && (
+                      <>
+                        <br />
+                        <small style={{ color: 'red' }}>{schedule.error_message}</small>
+                      </>
+                    )}
+                  </td>
+                  <td data-label={t('scheduled.actions')}>
                   <div className="actions">
                     {schedule.status === 'pending' && (
                       <>
                         <button
-                          className="btn btn-secondary"
+                          className="btn btn-secondary btn-nowrap"
                           onClick={() => handleSendNow(schedule.id)}
                         >
+                          <i className="fas fa-paper-plane"></i>
                           {t('scheduled.sendNow')}
                         </button>
                         <button
                           className="btn btn-danger"
                           onClick={() => handleCancel(schedule.id)}
                         >
+                          <i className="fas fa-times-circle"></i>
                           {t('scheduled.cancel')}
                         </button>
                       </>
@@ -209,6 +218,7 @@ const ScheduledMessages: React.FC = () => {
             ))}
           </tbody>
         </table>
+      </div>
       )}
     </div>
   );

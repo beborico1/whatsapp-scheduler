@@ -1,7 +1,7 @@
 {
   "name": "WhatsApp Scheduler",
   "description": "Schedule WhatsApp messages with ease",
-  "repository": "https://github.com/yourusername/whatsapp-scheduler",
+  "repository": "https://github.com/beborico1/whatsapp-scheduler",
   "addons": [
     "heroku-postgresql:mini",
     "heroku-redis:mini"
