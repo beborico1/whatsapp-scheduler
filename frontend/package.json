@@ -29,6 +29,10 @@
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:e2e": "cypress run --headless",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,6 +54,8 @@
     ]
   },
   "devDependencies": {
-    "@types/react-datepicker": "^6.2.0"
+    "@testing-library/cypress": "^10.0.3",
+    "@types/react-datepicker": "^6.2.0",
+    "cypress": "^14.5.3"
   }
 }

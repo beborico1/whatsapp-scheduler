@@ -1,13 +1,14 @@
 # 🚀 WhatsApp Scheduler - The Ultimate Messaging Automation Platform
 
 <div align="center">
+  
+  ### 🌐 [**LIVE DEMO**](https://whatsapp-scheduler-production.up.railway.app/) | [**API DOCS**](https://whatsapp-scheduler-production.up.railway.app/docs)
+  
   <img src="frontend/public/logo.png" alt="WhatsApp Scheduler Logo" width="200"/>
   
   **Schedule. Automate. Deliver.**
   
   ***Built for Baltra's Technical Assessment***
-  
-  ### 🌐 [Live Demo](https://whatsapp-scheduler-production.up.railway.app/)
   
   [![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
   [![React](https://img.shields.io/badge/React-19.1.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
@@ -22,9 +23,15 @@
 
 ## 📚 Documentation
 
-- 📖 **[Setup Guide](docs/SETUP_GUIDE.md)** - Detailed installation and configuration instructions
-- 🔬 **[Technology Deep Dive](docs/TECH_DIVE.md)** - In-depth explanation of all technologies used
-- 🌐 **[Live Demo](https://whatsapp-scheduler-production.up.railway.app/)** - See it in action!
+### Core Documentation
+- 🏛️ **[Architecture](docs/ARCHITECTURE.md)** - System design and component architecture
+- 🚀 **[Performance](docs/PERFORMANCE.md)** - Benchmarks and optimization strategies
+- 🔒 **[Security](docs/SECURITY.md)** - Security measures and best practices
+- 📡 **[API Reference](docs/API.md)** - Complete API documentation
+
+### Getting Started
+- 📖 **[Setup Guide](docs/SETUP_GUIDE.md)** - Installation and configuration instructions
+- 🔬 **[Technology Deep Dive](docs/TECH_DIVE.md)** - In-depth explanation of technologies used
 
 ---
 
@@ -50,6 +57,8 @@
 ## 🏗️ Architecture
 
 ### System Architecture
+
+![Railway Architecture](docs/assets/railway-architecture.png)
 
 ```mermaid
 graph TB
@@ -431,6 +440,59 @@ From the project's todo list:
 - Use ESLint configuration for TypeScript/JavaScript
 - Write tests for new features
 - Update documentation as needed
+
+---
+
+## 🚀 Deployment Readiness
+
+### Health Check Endpoints
+
+The application includes comprehensive health check endpoints for monitoring and orchestration:
+
+| Endpoint | Service | Description |
+|----------|---------|-------------|
+| `GET /health` | Backend API | Basic health check for API server |
+| `GET /health/db` | Backend API | Database connectivity check |
+| `GET /health/redis` | Backend API | Redis connectivity check |
+| `GET /health/celery` | Backend API | Celery worker status check |
+| `GET /health/detailed` | Backend API | Combined health status of all services |
+
+#### Example Health Check Response
+
+```json
+{
+  "status": "healthy",
+  "timestamp": "2024-01-05T12:00:00Z",
+  "services": {
+    "api": "healthy",
+    "database": "healthy",
+    "redis": "healthy",
+    "celery": {
+      "workers": 2,
+      "status": "healthy"
+    }
+  }
+}
+```
+
+#### Container Health Checks
+
+Docker Compose configuration includes health checks:
+
+```yaml
+healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s
+```
+
+These endpoints enable:
+- **Kubernetes/Docker** readiness and liveness probes
+- **Load balancer** health monitoring
+- **Monitoring tools** integration (Prometheus, Datadog, etc.)
+- **Automated deployment** validation
 
 ---
 
