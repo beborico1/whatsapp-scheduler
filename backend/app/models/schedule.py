@@ -10,7 +10,7 @@ class ScheduledMessage(Base):
     message_id = Column(Integer, ForeignKey('messages.id'), nullable=False)
     group_id = Column(Integer, ForeignKey('recipient_groups.id'), nullable=False)
     scheduled_time = Column(DateTime(timezone=True), nullable=False)
-    status = Column(String(50), default="pending")  # pending, sent, failed, cancelled
+    status = Column(String(50), default="pending")  # pending, sent, failed, cancelled, archived
     task_id = Column(String(255))  # Celery task ID
     error_message = Column(Text)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

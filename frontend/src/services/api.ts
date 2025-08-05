@@ -94,8 +94,9 @@ export const scheduleApi = {
   getAll: (status?: string) => api.get<ScheduledMessage[]>('/schedules/', { params: { status } }),
   getOne: (id: number) => api.get<ScheduledMessage>(`/schedules/${id}/`),
   create: (data: { message_id: number; group_id: number; scheduled_time: string }) => api.post<ScheduledMessage>('/schedules/', data),
-  cancel: (id: number) => api.put(`/schedules/${id}/cancel/`),
-  sendNow: (id: number) => api.post(`/schedules/${id}/send-now/`),
+  cancel: (id: number) => api.put(`/schedules/${id}/cancel`),
+  sendNow: (id: number) => api.post(`/schedules/${id}/send-now`),
+  archive: (id: number) => api.put(`/schedules/${id}/archive`),
   delete: (id: number) => api.delete(`/schedules/${id}/`),
 };
 

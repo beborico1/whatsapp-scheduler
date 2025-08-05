@@ -544,6 +544,15 @@ p {
   background: #9CA3AF;
 }
 
+.status-badge.archived {
+  background: #E5E7EB;
+  color: #4B5563;
+}
+
+.status-badge.archived::before {
+  background: #6B7280;
+}
+
 /* Modal */
 .modal {
   position: fixed;

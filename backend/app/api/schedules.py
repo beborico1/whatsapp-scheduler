@@ -95,13 +95,26 @@ def send_now(schedule_id: int, db: Session = Depends(get_db)):
     
     return {"message": "Message queued for immediate sending", "task_id": task.id}
 
+@router.put("/{schedule_id}/archive")
+def archive_scheduled_message(schedule_id: int, db: Session = Depends(get_db)):
+    db_schedule = db.query(ScheduledMessage).filter(ScheduledMessage.id == schedule_id).first()
+    if db_schedule is None:
+        raise HTTPException(status_code=404, detail="Scheduled message not found")
+    
+    if db_schedule.status == "archived":
+        raise HTTPException(status_code=400, detail="Message is already archived")
+    
+    db_schedule.status = "archived"
+    db.commit()
+    return {"message": "Scheduled message archived successfully"}
+
 @router.delete("/{schedule_id}")
 def delete_scheduled_message(schedule_id: int, db: Session = Depends(get_db)):
     db_schedule = db.query(ScheduledMessage).filter(ScheduledMessage.id == schedule_id).first()
     if db_schedule is None:
         raise HTTPException(status_code=404, detail="Scheduled message not found")
     
-    if db_schedule.status not in ["pending", "cancelled", "failed"]:
+    if db_schedule.status not in ["pending", "cancelled", "failed", "archived"]:
         raise HTTPException(status_code=400, detail="Cannot delete sent or sending messages")
     
     db.delete(db_schedule)

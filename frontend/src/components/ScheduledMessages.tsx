@@ -19,7 +19,11 @@ const ScheduledMessages: React.FC = () => {
     try {
       setLoading(true);
       const response = await scheduleApi.getAll(filter || undefined);
-      setSchedules(response.data);
+      // Sort by created_at descending (most recent first)
+      const sortedSchedules = response.data.sort((a, b) => 
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+      setSchedules(sortedSchedules);
     } catch (err) {
       console.error('Error fetching schedules:', err);
     } finally {
@@ -60,6 +64,15 @@ const ScheduledMessages: React.FC = () => {
     }
   };
 
+  const handleArchive = async (id: number) => {
+    try {
+      await scheduleApi.archive(id);
+      fetchSchedules();
+    } catch (err: any) {
+      alert(err.response?.data?.detail || 'Error archiving message');
+    }
+  };
+
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case 'pending': return 'status-badge pending';
@@ -68,6 +81,7 @@ const ScheduledMessages: React.FC = () => {
       case 'cancelled': return 'status-badge cancelled';
       case 'sending': return 'status-badge pending';
       case 'partially_sent': return 'status-badge pending';
+      case 'archived': return 'status-badge archived';
       default: return 'status-badge';
     }
   };
@@ -89,7 +103,8 @@ const ScheduledMessages: React.FC = () => {
             { value: 'pending', label: t('scheduled.statusPending') },
             { value: 'sent', label: t('scheduled.statusSent') },
             { value: 'failed', label: t('scheduled.statusFailed') },
-            { value: 'cancelled', label: t('scheduled.statusCancelled') }
+            { value: 'cancelled', label: t('scheduled.statusCancelled') },
+            { value: 'archived', label: t('scheduled.statusArchived') }
           ]}
           className="custom-select-container"
           classNamePrefix="custom-select"
@@ -167,6 +182,16 @@ const ScheduledMessages: React.FC = () => {
                       >
                         <i className="fas fa-redo"></i>
                         Retry
+                      </button>
+                    )}
+                    {!['archived'].includes(schedule.status) && (
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => handleArchive(schedule.id)}
+                        title="Archive this message"
+                      >
+                        <i className="fas fa-archive"></i>
+                        Archive
                       </button>
                     )}
                     {['cancelled', 'failed'].includes(schedule.status) && (
