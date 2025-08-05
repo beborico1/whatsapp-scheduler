@@ -7,6 +7,8 @@
   
   ***Built for Baltra's Technical Assessment***
   
+  ### 🌐 [Live Demo](https://whatsapp-scheduler-production.up.railway.app/)
+  
   [![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
   [![React](https://img.shields.io/badge/React-19.1.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -15,6 +17,14 @@
   [![Redis](https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
   [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 </div>
+
+---
+
+## 📚 Documentation
+
+- 📖 **[Setup Guide](docs/SETUP_GUIDE.md)** - Detailed installation and configuration instructions
+- 🔬 **[Technology Deep Dive](docs/TECH_DIVE.md)** - In-depth explanation of all technologies used
+- 🌐 **[Live Demo](https://whatsapp-scheduler-production.up.railway.app/)** - See it in action!
 
 ---
 
