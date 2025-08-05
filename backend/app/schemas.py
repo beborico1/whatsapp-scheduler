@@ -73,7 +73,7 @@ class ScheduledMessage(ScheduledMessageBase):
     created_at: datetime
     sent_at: Optional[datetime]
     message: Message
-    group: RecipientGroup
+    group: RecipientGroupWithRecipients
     
     class Config:
         from_attributes = True
