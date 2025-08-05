@@ -7,6 +7,9 @@ from app.models import ScheduledMessage, Message, RecipientGroup
 from app.services.whatsapp import whatsapp_service
 import logging
 
+# STARTUP DEBUG LOG - This should appear when worker starts
+print("🚀🚀🚀 WORKER STARTUP: Updated whatsapp_tasks.py is loaded! 🚀🚀🚀")
+
 logger = logging.getLogger(__name__)
 
 class SQLAlchemyTask(Task):
