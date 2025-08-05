@@ -10,6 +10,18 @@ import logging
 # STARTUP DEBUG LOG - This should appear when worker starts
 print("🚀🚀🚀 WORKER STARTUP: Updated whatsapp_tasks.py is loaded! 🚀🚀🚀")
 
+# Test database connection immediately
+try:
+    from app.database import SessionLocal
+    test_db = SessionLocal()
+    test_db.execute("SELECT 1")
+    test_db.close()
+    print("✅ Database connection test PASSED")
+except Exception as e:
+    print(f"❌ Database connection test FAILED: {e}")
+    
+print("🏁 whatsapp_tasks.py module initialization complete")
+
 logger = logging.getLogger(__name__)
 
 class SQLAlchemyTask(Task):
