@@ -93,7 +93,6 @@ out/
 
 # Gatsby
 .cache/
-public/
 
 # Nuxt.js
 .nuxt/
