@@ -1,0 +1,140 @@
+/* App Container */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation */
+.navbar {
+  background: #285C54;
+  border-bottom: 1px solid var(--border-light);
+  padding: var(--spacing-md) var(--spacing-xl);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.navbar-title {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.navbar-logo {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  transition: var(--transition);
+  filter: brightness(0) invert(1);
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: var(--spacing-xs);
+  margin: 0;
+  margin-left: var(--spacing-xl);
+  padding: 0;
+  flex: 1;
+}
+
+.navbar a {
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.navbar a:hover {
+  color: #FFFFFF;
+  background: #408A7E;
+}
+
+.navbar a i {
+  font-size: 16px;
+}
+
+/* Mobile menu toggle - hidden by default */
+.mobile-menu-toggle {
+  display: none;
+}
+
+/* Main Container */
+.container {
+  flex: 1;
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Language Toggle */
+.language-toggle {
+  display: flex !important;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+  width: fit-content;
+}
+
+.lang-btn {
+  padding: 4px 6px !important;
+  background: transparent;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 0 !important;
+  margin: 0 !important;
+  outline: none;
+  width: auto !important;
+  min-width: auto !important;
+  flex: none !important;
+}
+
+.lang-btn:first-child {
+  border-radius: 4px 0 0 4px !important;
+}
+
+.lang-btn:last-child {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.lang-btn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.lang-btn.active {
+  background: white;
+  color: #285C54;
+}

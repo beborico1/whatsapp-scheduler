@@ -1,0 +1,81 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+/* CSS Variables for minimalist theme */
+:root {
+  /* Colors - Minimal palette */
+  --primary: #000000;
+  --secondary: #666666;
+  --accent: #0066FF;
+  --accent-hover: #0052CC;
+  
+  --background: #EBE5DE;
+  --surface: #FFFFFF;
+  --surface-hover: #FAFAFA;
+  --border: #E5E5E5;
+  --border-light: #F0F0F0;
+  
+  --text-primary: #000000;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --text-light: #CCCCCC;
+  
+  --success: #00C851;
+  --error: #FF3B30;
+  --warning: #FFBB33;
+  
+  /* Spacing - Base values */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Responsive spacing */
+  --container-padding: var(--spacing-xl);
+  --card-padding: var(--spacing-xl);
+  --section-gap: var(--spacing-2xl);
+  --input-padding: var(--spacing-md);
+  --button-padding: var(--spacing-md) var(--spacing-lg);
+  
+  /* Typography - Base values */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  
+  /* Responsive font sizes */
+  --h1-size: var(--font-size-3xl);
+  --h2-size: var(--font-size-2xl);
+  --h3-size: var(--font-size-xl);
+  --body-size: var(--font-size-base);
+  
+  /* Layout */
+  --container-width: 1200px;
+  --modal-width: 600px;
+  --navbar-height: 60px;
+  
+  /* Shadows - Subtle */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.05);
+  
+  /* Transitions */
+  --transition: all 0.2s ease;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  
+  /* Breakpoints */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1200px;
+}
