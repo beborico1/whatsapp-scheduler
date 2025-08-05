@@ -1,5 +1,5 @@
 from celery import Task
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from sqlalchemy.orm import Session
 from app.celery_app import celery_app
 from app.database import SessionLocal
@@ -136,31 +136,48 @@ def send_scheduled_message(self, scheduled_message_id: int):
 
 @celery_app.task(base=SQLAlchemyTask, bind=True)
 def check_scheduled_messages(self):
-    """Check for messages that need to be sent"""
-    print("🔥 CELERY DEBUG: Starting check_scheduled_messages task")
-    logger.info("DEBUG: Starting check_scheduled_messages task")
+    """Check for messages that might have been missed (failsafe)"""
+    logger.info("DEBUG: Running failsafe check for missed scheduled messages")
     try:
         current_time = datetime.now(timezone.utc)
-        logger.info(f"DEBUG: Current UTC time: {current_time}")
         
-        # Find all pending messages whose scheduled time has passed
-        pending_messages = self.db.query(ScheduledMessage).filter(
+        # Find messages that are overdue by more than 30 seconds and don't have a task_id
+        # This catches messages that failed to schedule properly
+        overdue_messages = self.db.query(ScheduledMessage).filter(
             ScheduledMessage.status == "pending",
-            ScheduledMessage.scheduled_time <= current_time
+            ScheduledMessage.scheduled_time <= current_time,
+            ScheduledMessage.task_id == None
         ).all()
         
-        logger.info(f"DEBUG: Found {len(pending_messages)} pending messages due for sending")
+        if overdue_messages:
+            logger.warning(f"DEBUG: Found {len(overdue_messages)} overdue messages without task IDs")
+            
+            for scheduled_msg in overdue_messages:
+                delay = (current_time - scheduled_msg.scheduled_time).total_seconds()
+                logger.warning(f"DEBUG: Recovering message {scheduled_msg.id} overdue by {delay:.1f} seconds")
+                
+                # Send immediately since it's overdue
+                task = send_scheduled_message.delay(scheduled_msg.id)
+                scheduled_msg.task_id = task.id
+                self.db.commit()
+                logger.info(f"DEBUG: Queued overdue message {scheduled_msg.id} with task ID {task.id}")
         
-        for scheduled_msg in pending_messages:
-            logger.info(f"DEBUG: Processing message {scheduled_msg.id} scheduled for {scheduled_msg.scheduled_time}")
-            # Schedule the message to be sent
-            task = send_scheduled_message.delay(scheduled_msg.id)
-            logger.info(f"DEBUG: Queued scheduled message {scheduled_msg.id} for sending with task ID {task.id}")
+        # Also check for stuck messages (pending with task_id but overdue by >5 minutes)
+        stuck_time = datetime.now(timezone.utc).replace(microsecond=0) - timedelta(minutes=5)
+        stuck_messages = self.db.query(ScheduledMessage).filter(
+            ScheduledMessage.status == "pending",
+            ScheduledMessage.scheduled_time <= stuck_time,
+            ScheduledMessage.task_id != None
+        ).all()
         
-        if pending_messages:
-            logger.info(f"DEBUG: Successfully queued {len(pending_messages)} messages for sending")
-        else:
-            logger.info("DEBUG: No pending messages found to send")
+        if stuck_messages:
+            logger.error(f"DEBUG: Found {len(stuck_messages)} stuck messages")
+            for msg in stuck_messages:
+                logger.error(f"DEBUG: Message {msg.id} stuck with task_id {msg.task_id}")
+                # Re-queue stuck messages
+                task = send_scheduled_message.delay(msg.id)
+                msg.task_id = task.id
+                self.db.commit()
             
     except Exception as e:
         logger.exception(f"DEBUG: CRITICAL ERROR in check_scheduled_messages: {str(e)}")

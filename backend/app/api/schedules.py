@@ -30,16 +30,17 @@ def create_scheduled_message(schedule: ScheduledMessageCreate, db: Session = Dep
     db.commit()
     db.refresh(db_schedule)
     
-    # Only send immediately if the scheduled time has already passed (overdue)
+    # Schedule the task with ETA (Estimated Time of Arrival) for precise timing
+    task = send_scheduled_message.apply_async(
+        args=[db_schedule.id],
+        eta=schedule.scheduled_time
+    )
+    db_schedule.task_id = task.id
+    db.commit()
+    db.refresh(db_schedule)
+    
     time_until_send = (schedule.scheduled_time - datetime.now(timezone.utc)).total_seconds()
-    if time_until_send <= 0:
-        print(f"DEBUG: Scheduling overdue message {db_schedule.id} for immediate sending (overdue by {abs(time_until_send)} seconds)")
-        task = send_scheduled_message.delay(db_schedule.id)
-        db_schedule.task_id = task.id
-        db.commit()
-        db.refresh(db_schedule)
-    else:
-        print(f"DEBUG: Message {db_schedule.id} scheduled for {schedule.scheduled_time}, will be sent in {time_until_send} seconds")
+    print(f"DEBUG: Message {db_schedule.id} scheduled with ETA for {schedule.scheduled_time} (in {time_until_send:.1f} seconds)")
     
     return db_schedule
 

@@ -89,7 +89,7 @@ services:
     volumes:
       - ./backend:/app
       - /app/.venv
-    command: celery -A app.celery_app worker --loglevel=info --concurrency=2
+    command: celery -A app.celery_app worker --loglevel=info --concurrency=4 -Q default,high_priority --max-tasks-per-child=100
     restart: unless-stopped
     deploy:
       resources:
