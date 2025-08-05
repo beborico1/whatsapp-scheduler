@@ -127,7 +127,7 @@ const ScheduledMessages: React.FC = () => {
                 <th>{t('scheduled.message')}</th>
                 <th>{t('scheduled.group')}</th>
                 <th>{t('scheduled.scheduledTime')}</th>
-                <th>{t('scheduled.status')}</th>
+                <th className="th-status">{t('scheduled.status')}</th>
                 <th>{t('scheduled.actions')}</th>
               </tr>
             </thead>
@@ -153,7 +153,7 @@ const ScheduledMessages: React.FC = () => {
                       </>
                     )}
                   </td>
-                  <td data-label={t('scheduled.status')}>
+                  <td data-label={t('scheduled.status')} className="td-status">
                     <span className={getStatusBadgeClass(schedule.status)}>
                       {t(`scheduled.status${schedule.status.charAt(0).toUpperCase() + schedule.status.slice(1)}`)}
                     </span>

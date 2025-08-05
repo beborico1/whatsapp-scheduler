@@ -585,6 +585,13 @@ p {
   margin: 0;
 }
 
+/* Status column width constraint */
+.table .th-status,
+.table .td-status {
+  max-width: 120px;
+  width: 120px;
+}
+
 /* Status Badge */
 .status-badge {
   display: inline-flex;
@@ -1116,6 +1123,9 @@ p {
   .table.mobile-cards {
     display: block;
     border: none;
+    min-width: unset;
+    overflow: visible;
+    background: transparent;
   }
   
   .table.mobile-cards thead {
@@ -1133,6 +1143,7 @@ p {
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
+    overflow: hidden;
   }
   
   .table.mobile-cards td {
