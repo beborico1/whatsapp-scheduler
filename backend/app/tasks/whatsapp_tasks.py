@@ -27,6 +27,7 @@ class SQLAlchemyTask(Task):
 @celery_app.task(base=SQLAlchemyTask, bind=True)
 def send_scheduled_message(self, scheduled_message_id: int):
     """Send a scheduled WhatsApp message to all recipients in the group"""
+    print(f"🔥 CELERY DEBUG: Starting send_scheduled_message task for message ID {scheduled_message_id}")
     logger.info(f"DEBUG: Starting send_scheduled_message task for message ID {scheduled_message_id}")
     try:
         # Get the scheduled message
@@ -50,6 +51,7 @@ def send_scheduled_message(self, scheduled_message_id: int):
         group = scheduled_msg.group
         
         logger.info(f"DEBUG: Message content: '{message.content[:50]}...'")
+        print(f"🔥 CELERY DEBUG: Group '{group.name}' has {len(group.recipients)} recipients")
         logger.info(f"DEBUG: Group '{group.name}' has {len(group.recipients)} recipients")
         
         # Send to all recipients in the group
@@ -65,6 +67,7 @@ def send_scheduled_message(self, scheduled_message_id: int):
                 message.content
             )
             
+            print(f"🔥 CELERY DEBUG: WhatsApp API result for {recipient.phone_number}: {result}")
             logger.info(f"DEBUG: WhatsApp API result for {recipient.phone_number}: {result}")
             
             if result.get("success", False):
@@ -101,6 +104,7 @@ def send_scheduled_message(self, scheduled_message_id: int):
             logger.error(f"DEBUG: Errors recorded: {scheduled_msg.error_message}")
         
         self.db.commit()
+        print(f"🔥 CELERY DEBUG: Final status for message {scheduled_message_id}: '{scheduled_msg.status}'")
         logger.info(f"DEBUG: Updated message {scheduled_message_id} final status to '{scheduled_msg.status}'")
         
         logger.info(f"DEBUG: Scheduled message {scheduled_message_id} processing complete. Success: {success_count}, Failed: {fail_count}")
@@ -117,6 +121,7 @@ def send_scheduled_message(self, scheduled_message_id: int):
 @celery_app.task(base=SQLAlchemyTask, bind=True)
 def check_scheduled_messages(self):
     """Check for messages that need to be sent"""
+    print("🔥 CELERY DEBUG: Starting check_scheduled_messages task")
     logger.info("DEBUG: Starting check_scheduled_messages task")
     try:
         current_time = datetime.now(timezone.utc)
