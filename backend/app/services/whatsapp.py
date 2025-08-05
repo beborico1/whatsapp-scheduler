@@ -62,10 +62,34 @@ class WhatsAppService:
             print(f"DEBUG: - Response Headers: {dict(response.headers)}")
             print(f"DEBUG: - Response Body: {response.text}")
             
-            response.raise_for_status()
-            result_data = response.json()
-            print(f"DEBUG: WhatsApp API SUCCESS - Message sent successfully")
-            return {"success": True, "data": result_data}
+            # Check for success status codes (200-299)
+            if 200 <= response.status_code < 300:
+                result_data = response.json()
+                print(f"DEBUG: WhatsApp API SUCCESS - Message sent successfully")
+                return {"success": True, "data": result_data}
+            else:
+                # Handle API errors (400, 401, etc.)
+                try:
+                    error_data = response.json()
+                    error_message = error_data.get('error', {}).get('message', f'HTTP {response.status_code}')
+                    error_code = error_data.get('error', {}).get('code', response.status_code)
+                    print(f"DEBUG: WhatsApp API ERROR - Status: {response.status_code}, Message: {error_message}")
+                    return {
+                        "success": False, 
+                        "error": error_message,
+                        "details": response.text,
+                        "status_code": response.status_code,
+                        "error_code": error_code
+                    }
+                except ValueError:
+                    # Non-JSON error response
+                    print(f"DEBUG: WhatsApp API ERROR - Non-JSON response: {response.text}")
+                    return {
+                        "success": False, 
+                        "error": f"HTTP {response.status_code}: {response.text}",
+                        "details": response.text,
+                        "status_code": response.status_code
+                    }
             
         except requests.exceptions.RequestException as e:
             error_details = {
